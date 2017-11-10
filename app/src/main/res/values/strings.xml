@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">MyRecipes</string>
+    <string name="title_activity_log_in">LogIn</string>
+    <string name="title_activity_sign_in">SignIn</string>
 </resources>

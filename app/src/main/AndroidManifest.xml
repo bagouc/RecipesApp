@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SignIn" />
+        <activity android:name=".LogIn" />
+        <activity android:name=".PersonalSpace"></activity>
     </application>
 
 </manifest>
