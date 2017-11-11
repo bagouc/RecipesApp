@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import dao.UserDAO;
+
 public class Welcome extends AppCompatActivity {
 
     @Override
@@ -32,7 +34,5 @@ public class Welcome extends AppCompatActivity {
                 getBaseContext().startActivity(intentSignIn);
             }
         });
-
-
     }
 }
