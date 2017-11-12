@@ -17,15 +17,22 @@ public class UserDAO extends DAOBase{
     public static final String USER_PWD = "password";
 
     public static final String USER_TABLE_NAME = "Users";
-    public static final String USER_TABLE_CREATE = "CREATE TABLE " +
+    public static final String USER_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + USER_TABLE_NAME + " (" +
             USER_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             USER_NAME + " TEXT, " +
-            USER_PWD + " TEXT);";
+            USER_PWD + " TEXT)";
 
     public static final  String USER_TABLE_DROP =  "DROP TABLE IF EXISTS " + USER_TABLE_NAME + ";";
 
     public UserDAO (Context context) {
         super(context);
+        try {
+            this.open();
+            this.mDb.execSQL(USER_TABLE_CREATE);
+        }
+        catch (Exception e) {
+            Log.v("init(): ", e.getMessage());
+        }
     }
 
     public void add(User u) {
@@ -62,6 +69,7 @@ public class UserDAO extends DAOBase{
         try {
             Cursor c = mDb.rawQuery("select " + USER_KEY + ", " + USER_NAME + ", " + USER_PWD + " " +
                     "from " + USER_TABLE_NAME + " where " + USER_KEY + " = ?", new String[]{String.valueOf(id)});
+            c.moveToFirst();
             User u = new User(c.getLong(0), c.getString(1), c.getString(2));
             return u;
         } catch (Exception e) {
@@ -71,4 +79,44 @@ public class UserDAO extends DAOBase{
         return null;
     }
 
+    public boolean exsistsUser(String username) {
+        try {
+            Cursor c = mDb.rawQuery("select " + USER_NAME +
+                    " from " + USER_TABLE_NAME + " where " + USER_NAME + " = ?", new String[]{username});
+            Log.v("cursor count: ", Integer.toString(c.getCount()));
+            return c.getCount() > 0;
+        } catch (Exception e) {
+            Log.v("Error in existsUser(): ", e.getMessage());
+        }
+        return false;
+    }
+
+    public boolean checkAuthentication(String username, String pass) {
+        try {
+            Cursor c = mDb.rawQuery("select " + USER_NAME + ", " + USER_PWD +
+                    " from " + USER_TABLE_NAME +
+                    " where " + USER_NAME + " = ? AND " + USER_PWD + " = ?", new String[]{username, pass});
+            Log.v("cursor count: ", Integer.toString(c.getCount()));
+            return c.getCount() > 0;
+        } catch (Exception e) {
+            Log.v("Error in checkAuth(): ", e.getMessage());
+        }
+        return false;
+    }
+
+    public User testQuery() {
+        String[] columns = {USER_KEY, USER_NAME, USER_PWD};
+        try {
+
+            Cursor c = mDb.query(USER_TABLE_NAME, columns, "", null, null, null, null);
+            c.moveToFirst();
+            User u = new User(c.getInt(0), c.getString(1), c.getString(2));
+
+            return u;
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("SelectError",chaine);
+        }
+        return null;
+    }
 }

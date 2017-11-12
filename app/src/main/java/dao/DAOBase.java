@@ -5,28 +5,32 @@ import database.DatabaseHandler;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 
 /**
  * Created by Claire on 10/11/2017.
  */
 
-public abstract class DAOBase {
+public abstract class DAOBase extends SQLiteOpenHelper{
 
     protected final static int VERSION = 1;
 
     protected final static String NAME = "databaseMyRecipes.db";
 
     protected SQLiteDatabase mDb = null;
-    protected DatabaseHandler mHandler = null;
 
-    public DAOBase(Context pContext) {
-        this.mHandler = new DatabaseHandler(pContext, NAME, null, VERSION);
+    public DAOBase(Context context) {
+        super(context, NAME, null, VERSION);
     }
 
     public SQLiteDatabase open() {
         // not necessary to close the database, the function getWrtiableDatabase does it
-        mDb = mHandler.getWritableDatabase();
+        try {
+            mDb = this.getWritableDatabase();
+        } catch (Exception e) {
+            Log.v("getWritableDatabase(): ", e.getMessage());
+        }
         return mDb;
     }
 
@@ -36,5 +40,15 @@ public abstract class DAOBase {
 
     public SQLiteDatabase getDb() {
         return mDb;
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+    }
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    }
+    @Override
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 }
