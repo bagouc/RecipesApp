@@ -1,5 +1,6 @@
 package com.example.claire.myrecipes;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 import dao.SessionDAO;
@@ -40,7 +42,14 @@ public class PersonalSpace extends AppCompatActivity {
             Button buttonSharedSpace = (Button)findViewById(R.id.sept);
             Button buttonSettings = (Button)findViewById(R.id.huit);
 
-            
+            buttonSearchRecipe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentLogIn = new Intent(getBaseContext(), LogIn.class);
+                    getBaseContext().startActivity(intentLogIn);
+                }
+            });
+
         }
         catch (Exception e) {
             Log.v("Error SessionDAO.open()", e.getMessage());
@@ -56,7 +65,7 @@ public class PersonalSpace extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_logout:
             /* DO EDIT */
                 return true;
 
