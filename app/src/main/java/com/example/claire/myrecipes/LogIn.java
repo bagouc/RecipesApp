@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import dao.SessionDAO;
 import dao.UserDAO;
 import model.User;
 
@@ -21,10 +22,10 @@ public class LogIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
-        Button buttonRegister = (Button)findViewById(R.id.button);
+        Button buttonLogin = (Button)findViewById(R.id.buttonLogin);
         username = (EditText) findViewById (R.id.username);
         password = (EditText) findViewById (R.id.password);
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UserDAO userDAO = new UserDAO(getBaseContext());
@@ -43,6 +44,18 @@ public class LogIn extends AppCompatActivity {
                     }
                 } catch (Exception e) {
                     Log.v("authentication: ", e.getMessage());
+                }
+                SessionDAO sessionDAO = new SessionDAO(getBaseContext());
+                try {
+                    long id = userDAO.getId(username.getText().toString());
+                    sessionDAO.open();
+                    Log.v("Open() successful", "");
+                    sessionDAO.addUserConnected(id);
+                    //Toast.makeText(getBaseContext(), username.getText().toString(),
+                          //  Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Log.v("Error SessionDAO.open()", e.getMessage());
                 }
                 Intent intentLogIn = new Intent(getBaseContext(), PersonalSpace.class);
                 getBaseContext().startActivity(intentLogIn);

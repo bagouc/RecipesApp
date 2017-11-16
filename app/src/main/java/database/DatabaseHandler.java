@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 /**
  * Created by Claire on 10/11/2017.
  */
+// TO VERIFY: This file is useless???
+
 
 public class DatabaseHandler extends SQLiteOpenHelper {
     public static final String USER_KEY = "id";
@@ -20,6 +22,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             USER_PWD + " TEXT);";
 
     public static final  String USER_TABLE_DROP =  "DROP TABLE IF EXISTS " + USER_TABLE_NAME + ";";
+
+
 
 
     public DatabaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

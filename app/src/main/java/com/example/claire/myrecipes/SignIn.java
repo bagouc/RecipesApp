@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import dao.SessionDAO;
 import dao.UserDAO;
 import model.User;
 
@@ -61,6 +62,16 @@ public class SignIn extends AppCompatActivity {
                 } else {
                     String chaine = "problem";
                     Log.v("Essai",chaine);
+                }
+                SessionDAO sessionDAO = new SessionDAO(getBaseContext());
+                try {
+                    long id = userDAO.getId(username.getText().toString());
+                    sessionDAO.open();
+                    Log.v("Open() successful", "");
+                    sessionDAO.addUserConnected(id);
+                }
+                catch (Exception e) {
+                    Log.v("Error SessionDAO.open()", e.getMessage());
                 }
                 Intent intentLogIn = new Intent(getBaseContext(), PersonalSpace.class);
                 getBaseContext().startActivity(intentLogIn);

@@ -104,6 +104,20 @@ public class UserDAO extends DAOBase{
         return false;
     }
 
+    public long getId(String username) {
+        try {
+            Cursor c = mDb.rawQuery("select " + USER_KEY + ", " + USER_NAME + ", " + USER_PWD + " " +
+                    "from " + USER_TABLE_NAME + " where " + USER_NAME + " = ?", new String[]{username});
+            c.moveToFirst();
+            User u = new User(c.getLong(0), c.getString(1), c.getString(2));
+            return u.getId();
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("SelectError",chaine);
+        }
+        return 0;
+    }
+
     public User testQuery() {
         String[] columns = {USER_KEY, USER_NAME, USER_PWD};
         try {
