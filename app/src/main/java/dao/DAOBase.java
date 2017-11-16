@@ -38,10 +38,6 @@ public abstract class DAOBase extends SQLiteOpenHelper{
         mDb.close();
     }
 
-    public SQLiteDatabase getDb() {
-        return mDb;
-    }
-
     @Override
     public void onCreate(SQLiteDatabase db) {
     }
