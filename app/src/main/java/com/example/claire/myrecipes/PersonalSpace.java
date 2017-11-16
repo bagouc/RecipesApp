@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import dao.SessionDAO;
 import dao.UserDAO;
@@ -29,6 +30,17 @@ public class PersonalSpace extends AppCompatActivity {
             // we get the username of the user connected
             User user_connected = sessionDAO.getUserConnected(getBaseContext());
             getSupportActionBar().setTitle("Home");
+
+            Button buttonSearchRecipe = (Button)findViewById(R.id.premier);
+            Button buttonMyRecipes = (Button)findViewById(R.id.second);
+            Button buttonMenus = (Button)findViewById(R.id.trois);
+            Button buttonContinueCooking = (Button)findViewById(R.id.quatre);
+            Button buttonAddRecipe = (Button)findViewById(R.id.cinq);
+            Button buttonAddIngredient = (Button)findViewById(R.id.six);
+            Button buttonSharedSpace = (Button)findViewById(R.id.sept);
+            Button buttonSettings = (Button)findViewById(R.id.huit);
+
+            
         }
         catch (Exception e) {
             Log.v("Error SessionDAO.open()", e.getMessage());
@@ -46,9 +58,6 @@ public class PersonalSpace extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_settings:
             /* DO EDIT */
-                return true;
-            case R.id.action_logout:
-            /* DO ADD */
                 return true;
 
         }
