@@ -11,9 +11,11 @@ import java.util.Vector;
 
 import dao.IngredientDAO;
 import dao.RecipeDAO;
+import dao.SessionDAO;
 import dao.UserDAO;
 import model.Ingredient;
 import model.Recipe;
+import model.Session;
 
 public class Welcome extends AppCompatActivity {
 
@@ -25,21 +27,48 @@ public class Welcome extends AppCompatActivity {
         Button buttonSignIn = (Button)findViewById(R.id.signIn);
         Button buttonLogIn = (Button)findViewById(R.id.logIn);
 
-        TextView textView = (TextView) findViewById(R.id.editText);
+
 
 
         RecipeDAO recipeDAO = new RecipeDAO(getBaseContext());
         recipeDAO.dropTable();
         recipeDAO = new RecipeDAO(getBaseContext());
         IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
+        ingredientDAO.dropTableIngredientSelected();
+        ingredientDAO.dropTableIngredients();
+        ingredientDAO.dropTableCategories();
+        ingredientDAO = new IngredientDAO(getBaseContext());
+        SessionDAO sessionDAO = new SessionDAO(getBaseContext());
+        sessionDAO.dropTable();
 
+        ingredientDAO.addCategory("Proteins"); //1
+        ingredientDAO.addCategory("Vegetables"); //2
+        ingredientDAO.addCategory("Fats"); //3
+        ingredientDAO.addCategory("Fibre"); //4
+        ingredientDAO.addCategory("Dairy"); //5
+        ingredientDAO.addCategory("Fruits"); //6
+        ingredientDAO.addCategory("Spices"); //7
+        ingredientDAO.addCategory("Sugar"); //8
+
+        Ingredient sugar = new Ingredient("sugar", 8, 0); //1
+        ingredientDAO.add(sugar);
+        Ingredient eggs = new Ingredient("eggs", 1, 0); //2
+        ingredientDAO.add(eggs);
+        Ingredient milk = new Ingredient("milk", 5, 0); //3
+        ingredientDAO.add(sugar);
+        Ingredient honey = new Ingredient("honey", 8, 0); //4
+        ingredientDAO.add(honey);
+        Ingredient chocolate = new Ingredient("chocolate", 8, 0); //5
+        ingredientDAO.add(chocolate);
 
         Vector<Ingredient> ingList = new Vector<Ingredient>();
-        ingList.add(new Ingredient("sugar", 0));
-        ingList.add(new Ingredient("eggs", 0));
-        ingList.add(new Ingredient("milk", 0));
-        ingList.add(new Ingredient("honey", 0));
-        ingList.add(new Ingredient("chocolate", 0));
+        ingList.add(new Ingredient("sugar", 8));
+        ingList.add(new Ingredient("eggs", 1));
+        ingList.add(new Ingredient("milk", 5));
+        ingList.add(new Ingredient("honey", 8));
+        ingList.add(new Ingredient("chocolate", 8));
+
+
 
         Vector<Ingredient> wanted = new Vector<Ingredient>();
         wanted.add(new Ingredient("milk",0));
@@ -52,11 +81,11 @@ public class Welcome extends AppCompatActivity {
         ingList.remove(0);
         recipeDAO.add(new Recipe(0,0,"Recipe3", ingList, ""));
         ingList.remove(0);
-        recipeDAO.add(new Recipe(0,0,"Recipe3", ingList, ""));
+        recipeDAO.add(new Recipe(0,0,"Recipe4", ingList, ""));
         ingList.remove(0);
 
 
-        Vector<Recipe> results = recipeDAO.searchRecipes(wanted, forbidden);
+        /*Vector<Recipe> results = recipeDAO.searchRecipes(wanted, forbidden);
 
         String s = "Search 1: ";
         for (int i = 0; i < results.size(); i++) {
@@ -68,7 +97,7 @@ public class Welcome extends AppCompatActivity {
         for (int i = 0; i < results.size(); i++) {
             s += "\n\n" + results.get(i).toString();
         }
-        textView.setText(s);
+        textView.setText(s); */
 
         buttonLogIn.setOnClickListener(new View.OnClickListener() {
             @Override

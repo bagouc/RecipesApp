@@ -68,7 +68,7 @@ public class UserDAO extends DAOBase{
         //Cursor rawQuery(String sql, String[] selectionArgs)
         try {
             Cursor c = mDb.rawQuery("select " + USER_KEY + ", " + USER_NAME + ", " + USER_PWD + " " +
-                    "from " + USER_TABLE_NAME + " where " + USER_KEY + " = ?", new String[]{String.valueOf(id)});
+                    " from " + USER_TABLE_NAME + " where " + USER_KEY + " = ?", new String[]{String.valueOf(id)});
             c.moveToFirst();
             User u = new User(c.getLong(0), c.getString(1), c.getString(2));
             return u;
@@ -107,7 +107,7 @@ public class UserDAO extends DAOBase{
     public long getId(String username) {
         try {
             Cursor c = mDb.rawQuery("select " + USER_KEY + ", " + USER_NAME + ", " + USER_PWD + " " +
-                    "from " + USER_TABLE_NAME + " where " + USER_NAME + " = ?", new String[]{username});
+                    " from " + USER_TABLE_NAME + " where " + USER_NAME + " = ?", new String[]{username});
             c.moveToFirst();
             User u = new User(c.getLong(0), c.getString(1), c.getString(2));
             return u.getId();

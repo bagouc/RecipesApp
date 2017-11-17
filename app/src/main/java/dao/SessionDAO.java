@@ -45,7 +45,7 @@ public class SessionDAO  extends DAOBase {
         UserDAO userDAO = new UserDAO(context);
         try {
             Cursor c = mDb.rawQuery("select " + SESSION_KEY +
-                    "from " + SESSION_TABLE_NAME , null);
+                    " from " + SESSION_TABLE_NAME , null);
             c.moveToFirst();
             long id = c.getLong(0);
             userDAO.open();
@@ -59,6 +59,9 @@ public class SessionDAO  extends DAOBase {
         return null;
     }
 
+    public void dropTable() {
+        mDb.execSQL("DROP TABLE IF EXISTS " + SESSION_TABLE_NAME);
+    }
 
 
     public void delete(long id) {

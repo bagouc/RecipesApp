@@ -18,7 +18,26 @@
         </activity>
         <activity android:name=".SignIn" />
         <activity android:name=".LogIn" />
-        <activity android:name=".PersonalSpace"></activity>
+        <activity android:name=".PersonalSpace" />
+        <activity android:name=".Search" />
+        <activity android:name=".MyRecipes" />
+        <activity android:name=".Menus" />
+        <activity android:name=".AddRecipe" />
+        <activity android:name=".ContinueCooking" />
+        <activity android:name=".SharedSpace" />
+        <activity android:name=".AddIngredient" />
+        <activity android:name=".Settings" />
+        <activity android:name=".SelectIngredients" />
+        <activity android:name=".Suggestions" />
+        <activity android:name=".Proteins" />
+        <activity android:name=".Vegetables" />
+        <activity android:name=".Fats" />
+        <activity android:name=".Fibre" />
+        <activity android:name=".Fruits" />
+        <activity android:name=".Spices" />
+        <activity android:name=".Sugar" />
+        <activity android:name=".Dairy" />
+        <activity android:name=".ResultsRecipesIngredients"></activity>
     </application>
 
 </manifest>

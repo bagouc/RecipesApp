@@ -27,7 +27,7 @@ public class PersonalSpace extends AppCompatActivity {
 
         SessionDAO sessionDAO = new SessionDAO(getBaseContext());
         try {
-            sessionDAO.open();
+
             Log.v("Open() successful", "");
             // we get the username of the user connected
             User user_connected = sessionDAO.getUserConnected(getBaseContext());
@@ -42,13 +42,71 @@ public class PersonalSpace extends AppCompatActivity {
             Button buttonSharedSpace = (Button)findViewById(R.id.sept);
             Button buttonSettings = (Button)findViewById(R.id.huit);
 
+            buttonSettings.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), Settings.class);
+                    getBaseContext().startActivity(intent);
+                }
+            });
+
+            buttonAddIngredient.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), AddIngredient.class);
+                    getBaseContext().startActivity(intent);
+                }
+            });
+
+            buttonSharedSpace.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), SharedSpace.class);
+                    getBaseContext().startActivity(intent);
+                }
+            });
+
+            buttonAddRecipe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), AddRecipe.class);
+                    getBaseContext().startActivity(intent);
+                }
+            });
+
+            buttonContinueCooking.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), ContinueCooking.class);
+                    getBaseContext().startActivity(intent);
+                }
+            });
+
             buttonSearchRecipe.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intentLogIn = new Intent(getBaseContext(), LogIn.class);
-                    getBaseContext().startActivity(intentLogIn);
+                    Intent intent = new Intent(getBaseContext(), Search.class);
+                    getBaseContext().startActivity(intent);
                 }
             });
+
+            buttonMyRecipes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), MyRecipes.class);
+                    getBaseContext().startActivity(intent);
+                }
+            });
+
+            buttonMenus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), Menus.class);
+                    getBaseContext().startActivity(intent);
+                }
+            });
+
+
 
         }
         catch (Exception e) {
@@ -62,6 +120,7 @@ public class PersonalSpace extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_personal_space, menu);
         return true;
     }
+
 
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
