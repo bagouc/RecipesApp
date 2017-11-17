@@ -37,16 +37,12 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
         RecipeDAO recipeDAO = new RecipeDAO(getBaseContext());
         Vector<Recipe> results = recipeDAO.searchRecipes(ing_list_wanted, forbidden);
 
-        String s = "Search 1: ";
+        String s = "Result(s) : ";
         for (int i = 0; i < results.size(); i++) {
             s += "\n\n" + results.get(i).toString();
         }
 
-        s += "\n\nSearch 2: ";
-        results = recipeDAO.searchRecipes(new Vector<Ingredient>(), new Vector<Ingredient>());
-        for (int i = 0; i < results.size(); i++) {
-            s += "\n\n" + results.get(i).toString();
-        }
+
         textView.setText(s);
 
     }
