@@ -13,7 +13,6 @@ public class Ingredient {
     private long idUser;
     private String name;
     private int category;
-    private int selected;
 
     public Ingredient(long id, long idUser, String name, int category) {
         this.id = id;
@@ -22,30 +21,15 @@ public class Ingredient {
         this.category = category;
     }
 
-    public Ingredient(long id, long idUser, String name, int category, int bool) {
-        this.id = id;
-        this.idUser = idUser;
-        this.name = name;
-        this.category = category;
-        this.selected = bool;
-    }
-
     public Ingredient(String name, int category) {
         this.name = name;
         this.category = category;
     }
 
-    public Ingredient(String name, int category, int bool) {
-        this.name = name;
-        this.category = category;
-        this.selected = bool;
-    }
-
-    public Ingredient(long i, String name, int category, int bool) {
+    public Ingredient(long i, String name, int category) {
         this.id = i;
         this.name = name;
         this.category = category;
-        this.selected = bool;
     }
 
     public Ingredient(JSONObject j) {
@@ -55,14 +39,6 @@ public class Ingredient {
         } catch (Exception e) {
             Log.v("IngredientConstr: ", e.getMessage());
         }
-    }
-
-    public int getSelected() {
-        return selected;
-    }
-
-    public void setSelected(int selected) {
-        this.selected = selected;
     }
 
     public long getId() {

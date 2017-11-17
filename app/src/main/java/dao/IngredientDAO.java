@@ -20,7 +20,6 @@ public class IngredientDAO extends DAOBase {
     public static final String INGREDIENT_NAME = "name";
     public static final String INGREDIENT_CATEGORY = "category";
     public static final String INGREDIENT_USER = "idUser";
-    public static final String INGREDIENT_SELECTED_BOOL = "selected";
 
     public static final String INGREDIENTS_SELECTED_KEY = "id_ing";
     public static final String INGREDIENTS_SELECTED_USER = "id_user";
@@ -112,14 +111,14 @@ public class IngredientDAO extends DAOBase {
     public Ingredient select(long id) {
         //Cursor rawQuery(String sql, String[] selectionArgs)
         try {
-            Cursor c = mDb.rawQuery("select " + INGREDIENT_KEY + ", " + INGREDIENT_NAME + ", " + INGREDIENT_CATEGORY + ", " + INGREDIENT_SELECTED_BOOL +
+            Cursor c = mDb.rawQuery("select " + INGREDIENT_KEY + ", " + INGREDIENT_NAME + ", " + INGREDIENT_CATEGORY +
                     " from " + INGREDIENT_TABLE_NAME + " where " + INGREDIENT_KEY + " = ?", new String[]{String.valueOf(id)});
             c.moveToFirst();
-           Ingredient u = new Ingredient(c.getLong(0), c.getString(1), c.getInt(2), c.getInt(3));
+           Ingredient u = new Ingredient(c.getLong(0), c.getString(1), c.getInt(2));
             return u;
         } catch (Exception e) {
             String chaine = e.getMessage();
-            Log.v("SelectError",chaine);
+            Log.v("SelectError0",chaine);
         }
         return null;
     }
@@ -151,40 +150,22 @@ public class IngredientDAO extends DAOBase {
 
     public Vector<Ingredient> getListIngredientsSelected(long id) {
         try {
-            Cursor d = mDb.rawQuery("select " + INGREDIENTS_SELECTED_KEY + ", " + INGREDIENTS_SELECTED_USER + " from " + INGREDIENTS_SELECTED_TABLE_NAME + " where " + INGREDIENTS_SELECTED_USER + " = ?", new String[]{String.valueOf(id)});
-            d.moveToFirst();
-            int numberRows = d.getCount();
+            Cursor d = mDb.rawQuery("select " + INGREDIENTS_SELECTED_KEY + ", " + INGREDIENTS_SELECTED_USER + ", " +
+                    INGREDIENT_NAME + ", " + INGREDIENT_CATEGORY +
+                    " from " + INGREDIENTS_SELECTED_TABLE_NAME + " inner join " +  INGREDIENT_TABLE_NAME + " on " +
+                    INGREDIENTS_SELECTED_TABLE_NAME +  "." + INGREDIENTS_SELECTED_KEY + " = " + INGREDIENT_TABLE_NAME + "." + INGREDIENT_KEY +
+                    " where " + INGREDIENTS_SELECTED_USER + " = ?", new String[]{String.valueOf(id)});
+
             Vector<Ingredient> list = new Vector<Ingredient>();
-            int i = 1;
-            Log.v("step", "avant 1 er ing a add");
-            if (i <= numberRows) {
-                Log.v("step", "dans if");
-                long id_ing = d.getLong(0);
-                Cursor c = mDb.rawQuery("select " + INGREDIENT_KEY + ", " + INGREDIENT_NAME + ", " + INGREDIENT_CATEGORY + ", " + INGREDIENT_SELECTED_BOOL +
-                        " from " + INGREDIENT_TABLE_NAME + " where " + INGREDIENT_KEY + " = ?", new String[]{String.valueOf(id)});
-                c.moveToFirst();
-                Ingredient u = new Ingredient(c.getLong(0), c.getString(1), c.getInt(2), c.getInt(3));
-                list.add(u);
-                i++;
-                Log.v("step", "fin if");
+            while (d.moveToNext()) {
+                list.add(new Ingredient(d.getLong(0), d.getString(2), d.getInt(3)));
             }
-            while (i <= numberRows) {
-                Log.v("step", "while");
-                d.moveToNext();
-                Cursor f = mDb.rawQuery("select " + INGREDIENT_KEY + ", " + INGREDIENT_NAME + ", " + INGREDIENT_CATEGORY + ", " + INGREDIENT_SELECTED_BOOL +
-                        " from " + INGREDIENT_TABLE_NAME + " where " + INGREDIENT_KEY + " = ?", new String[]{String.valueOf(id)});
-                f.moveToFirst();
-                Ingredient u = new Ingredient(f.getLong(0), f.getString(1), f.getInt(2), f.getInt(3));
-                list.add(u);
-                i++;
-            }
-            Log.v("step", "fin while");
             return list;
+
         } catch (Exception e) {
             String chaine = e.getMessage();
-            Log.v("SelectError",chaine);
+            Log.v("SelectError1",chaine);
         }
-        Log.v("step", "ERRRROR");
         return null;
     }
 

@@ -106,7 +106,7 @@ public class RecipeDAO extends DAOBase {
             }
         } catch (Exception e) {
             String chaine = e.getMessage();
-            Log.v("SelectError",chaine);
+            Log.v("searchError: ",chaine);
         }
         return results;
     }
