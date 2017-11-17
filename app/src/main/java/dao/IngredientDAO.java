@@ -33,8 +33,7 @@ public class IngredientDAO extends DAOBase {
             INGREDIENT_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             INGREDIENT_USER + " INTEGER,  " +
             INGREDIENT_NAME + " TEXT, " +
-            INGREDIENT_CATEGORY + " INTEGER, " +
-            INGREDIENT_SELECTED_BOOL + ")";
+            INGREDIENT_CATEGORY + " INTEGER)";
 
     public static final String CATEGORY_TABLE_NAME = "Categories";
     public static final String CATEGORY_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + CATEGORY_TABLE_NAME + " (" +

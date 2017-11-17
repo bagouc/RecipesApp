@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     tools:context="com.example.claire.myrecipes.Settings">
 
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="368dp"
+        android:layout_height="wrap_content"
+        android:entries="@array/categories_arrays"
+        android:prompt="@string/categories_prompt"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="135dp" />
+
 </android.support.constraint.ConstraintLayout>

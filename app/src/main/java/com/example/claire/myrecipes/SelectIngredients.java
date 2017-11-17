@@ -6,12 +6,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import dao.IngredientDAO;
+
 public class SelectIngredients extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_ingredients);
+
+        IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
+        ingredientDAO.dropTableIngredientSelected();
 
         getSupportActionBar().setTitle("Ingredients");
 
