@@ -27,9 +27,6 @@ public class Welcome extends AppCompatActivity {
         Button buttonSignIn = (Button)findViewById(R.id.signIn);
         Button buttonLogIn = (Button)findViewById(R.id.logIn);
 
-
-
-
         RecipeDAO recipeDAO = new RecipeDAO(getBaseContext());
         recipeDAO.dropTable();
         recipeDAO = new RecipeDAO(getBaseContext());
@@ -50,15 +47,15 @@ public class Welcome extends AppCompatActivity {
         ingredientDAO.addCategory("Spices"); //7
         ingredientDAO.addCategory("Sugar"); //8
 
-        Ingredient sugar = new Ingredient("sugar", 8, 0); //1
+        Ingredient sugar = new Ingredient("sugar", 8); //1
         ingredientDAO.add(sugar);
-        Ingredient eggs = new Ingredient("eggs", 1, 0); //2
+        Ingredient eggs = new Ingredient("eggs", 1); //2
         ingredientDAO.add(eggs);
-        Ingredient milk = new Ingredient("milk", 5, 0); //3
+        Ingredient milk = new Ingredient("milk", 5); //3
         ingredientDAO.add(sugar);
-        Ingredient honey = new Ingredient("honey", 8, 0); //4
+        Ingredient honey = new Ingredient("honey", 8); //4
         ingredientDAO.add(honey);
-        Ingredient chocolate = new Ingredient("chocolate", 8, 0); //5
+        Ingredient chocolate = new Ingredient("chocolate", 8); //5
         ingredientDAO.add(chocolate);
 
         Vector<Ingredient> ingList = new Vector<Ingredient>();
@@ -67,8 +64,6 @@ public class Welcome extends AppCompatActivity {
         ingList.add(new Ingredient("milk", 5));
         ingList.add(new Ingredient("honey", 8));
         ingList.add(new Ingredient("chocolate", 8));
-
-
 
         Vector<Ingredient> wanted = new Vector<Ingredient>();
         wanted.add(new Ingredient("milk",0));

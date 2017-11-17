@@ -2,6 +2,7 @@ package com.example.claire.myrecipes;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.util.Vector;
@@ -36,12 +37,21 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
 
         RecipeDAO recipeDAO = new RecipeDAO(getBaseContext());
         Vector<Recipe> results = recipeDAO.searchRecipes(ing_list_wanted, forbidden);
-
-        String s = "Result(s) : ";
+        String s = "";
+        /*
+        try {
+            s += "ingwanted: ";
+            for (int i = 0; i < ing_list_wanted.size(); i++) {
+                s += "\n" + ing_list_wanted.get(i).getName() + "\n";
+            }
+        } catch (Exception e) {
+            Log.v("err: ", e.getMessage());
+        }
+        */
+        s += "\nResult(s) : ";
         for (int i = 0; i < results.size(); i++) {
             s += "\n\n" + results.get(i).toString();
         }
-
 
         textView.setText(s);
 
