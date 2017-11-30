@@ -15,7 +15,6 @@ public class Dairy extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dairy);
 
-        getSupportActionBar().setTitle("Dairy");
 
         Button buttonMilk = (Button)findViewById(R.id.premier);
         Button buttonDone = (Button)findViewById(R.id.second);

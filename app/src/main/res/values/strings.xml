@@ -5,15 +5,16 @@
 
     <string name="categories_prompt">Select the categories you want to avoid</string>
 
-        <string-array name="categories_arrays">
+    <string-array name="categories_arrays">
 
-            <item>Meat</item>
-            <item>Fish</item>
-            <item>Dairy</item>
-            <item>Vegetables</item>
-            <item>Fruits</item>
-            <item>Fats</item>
-            <item>Fibre</item>
-        </string-array>
+        <item>Meat</item>
+        <item>Fish</item>
+        <item>Dairy</item>
+        <item>Vegetables</item>
+        <item>Fruits</item>
+        <item>Fats</item>
+        <item>Fibre</item>
+    </string-array>
+    <string name="title_activity_shops">Map</string>
 
 </resources>

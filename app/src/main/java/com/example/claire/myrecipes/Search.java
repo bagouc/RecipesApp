@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class Search extends AppCompatActivity {
 
@@ -13,10 +14,17 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        getSupportActionBar().setTitle("Search");
 
         Button buttonSelectIngredients = (Button)findViewById(R.id.premier);
         Button buttonSuggestions = (Button)findViewById(R.id.second);
+        ImageButton button = (ImageButton) findViewById(R.id.homeButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), PersonalSpace.class);
+                startActivity(intent);
+            }
+        });
 
         buttonSelectIngredients.setOnClickListener(new View.OnClickListener() {
             @Override

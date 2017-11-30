@@ -22,7 +22,7 @@ public class UserDAO extends DAOBase{
             USER_NAME + " TEXT, " +
             USER_PWD + " TEXT)";
 
-    public static final  String USER_TABLE_DROP =  "DROP TABLE IF EXISTS " + USER_TABLE_NAME + ";";
+    public static final String USER_TABLE_DROP =  "DROP TABLE IF EXISTS " + USER_TABLE_NAME + ";";
 
     public UserDAO (Context context) {
         super(context);
@@ -61,6 +61,21 @@ public class UserDAO extends DAOBase{
         value.put(USER_NAME, u.getUsername());
         value.put(USER_PWD, u.getPassword());
         mDb.update(USER_TABLE_NAME, value, USER_KEY  + " = ?", new String[] {String.valueOf(u.getId())});
+
+    }
+
+    public void update(String name, long id) {
+        ContentValues value = new ContentValues();
+        value.put(USER_NAME, name);
+        mDb.update(USER_TABLE_NAME, value, USER_KEY  + " = ?", new String[] {String.valueOf(id)});
+
+    }
+
+    public void update(String name, String password, long id) {
+        ContentValues value = new ContentValues();
+        value.put(USER_NAME, name);
+        value.put(USER_PWD, name);
+        mDb.update(USER_TABLE_NAME, value, USER_KEY  + " = ?", new String[] {String.valueOf(id)});
 
     }
 

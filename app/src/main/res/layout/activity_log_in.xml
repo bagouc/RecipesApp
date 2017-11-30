@@ -4,72 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.claire.myrecipes.LogIn">
+    tools:context="com.example.claire.myrecipes.LogIn"
+    tools:layout_editor_absoluteY="81dp">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="MyRecipes"
+                android:textColor="@color/white"
+                android:textSize="20dp" />
+
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="87dp"
-        android:layout_height="25dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="2dp"
         android:text="Username"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/username"
-        android:layout_marginTop="54dp"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="44dp"
-        app:layout_constraintLeft_toLeftOf="@+id/username"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintStart_toStartOf="@+id/username" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="74dp"
         android:layout_height="23dp"
-        android:text="Password"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="@+id/password"
-        android:layout_marginTop="63dp"
-        tools:layout_constraintLeft_creator="1"
         android:layout_marginBottom="46dp"
-        app:layout_constraintLeft_toLeftOf="@+id/password"
-        app:layout_constraintTop_toTopOf="@+id/username" />
+        android:layout_marginEnd="86dp"
+        android:layout_marginStart="87dp"
+        android:layout_marginTop="27dp"
+        android:text="Password"
+        app:layout_constraintBottom_toBottomOf="@+id/password"
+        app:layout_constraintEnd_toStartOf="@+id/buttonLogin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="49dp"
+        android:layout_marginTop="51dp"
         android:text="Login"
-        tools:layout_constraintRight_creator="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginEnd="68dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginBottom="220dp"
-        android:layout_marginRight="68dp" />
+        tools:layout_constraintRight_creator="1" />
 
     <EditText
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="118dp"
         android:ems="10"
         android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:layout_constraintBottom_creator="1"
-        app:layout_constraintBottom_toTopOf="@+id/password"
-        tools:layout_constraintLeft_creator="1"
-        android:layout_marginBottom="46dp"
-        app:layout_constraintLeft_toLeftOf="@+id/password" />
+        tools:layout_constraintLeft_creator="1" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginTop="50dp"
         android:ems="10"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
-        app:layout_constraintRight_toRightOf="@+id/buttonLogin"
+        app:layout_constraintStart_toStartOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/username"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintRight_creator="1" />
 </android.support.constraint.ConstraintLayout>

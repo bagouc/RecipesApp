@@ -21,7 +21,6 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results_recipes_ingredients);
 
-        getSupportActionBar().setTitle("Results");
 
         TextView textView = (TextView) findViewById(R.id.asdf);
 

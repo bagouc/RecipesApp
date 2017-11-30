@@ -31,7 +31,7 @@ public class PersonalSpace extends AppCompatActivity {
             Log.v("Open() successful", "");
             // we get the username of the user connected
             User user_connected = sessionDAO.getUserConnected(getBaseContext());
-            getSupportActionBar().setTitle("Home");
+
 
             Button buttonSearchRecipe = (Button)findViewById(R.id.premier);
             Button buttonMyRecipes = (Button)findViewById(R.id.second);
@@ -41,6 +41,7 @@ public class PersonalSpace extends AppCompatActivity {
             Button buttonAddIngredient = (Button)findViewById(R.id.six);
             Button buttonSharedSpace = (Button)findViewById(R.id.sept);
             Button buttonSettings = (Button)findViewById(R.id.huit);
+            Button buttonShops = (Button)findViewById(R.id.neuf);
 
             buttonSettings.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -102,6 +103,14 @@ public class PersonalSpace extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getBaseContext(), Menus.class);
+                    getBaseContext().startActivity(intent);
+                }
+            });
+
+            buttonShops.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), Shops.class);
                     getBaseContext().startActivity(intent);
                 }
             });
