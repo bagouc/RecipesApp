@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import dao.IngredientDAO;
 
@@ -15,10 +16,18 @@ public class SelectIngredients extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_ingredients);
 
+        ImageButton button = (ImageButton) findViewById(R.id.homeButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), PersonalSpace.class);
+                startActivity(intent);
+            }
+        });
+
         IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
         ingredientDAO.dropTableIngredientSelected();
 
-        getSupportActionBar().setTitle("Ingredients");
 
         Button buttonProteins = (Button)findViewById(R.id.premier);
         Button buttonVegetables = (Button)findViewById(R.id.second);

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 public class Preferences extends AppCompatActivity {
 
@@ -12,6 +13,15 @@ public class Preferences extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preferences);
+
+        ImageButton button = (ImageButton) findViewById(R.id.homeButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), PersonalSpace.class);
+                startActivity(intent);
+            }
+        });
 
         Button buttonExcludeIngredient = (Button)findViewById(R.id.button2);
         buttonExcludeIngredient.setOnClickListener(new View.OnClickListener() {

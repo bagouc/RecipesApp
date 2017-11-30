@@ -5,13 +5,17 @@
     android:id="@+id/test"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.claire.myrecipes.PersonalSpace">
+    tools:context="com.example.claire.myrecipes.PersonalSpace"
+    tools:layout_editor_absoluteY="25dp">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,20 +33,20 @@
                 android:textSize="20dp" />
 
 
-
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:baselineAligned="false"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="0dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/premier"
@@ -93,12 +97,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Shared space" />
+
         <Button
             android:id="@+id/neuf"
             android:layout_width="800px"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Closest shops" />
+
         <Button
             android:id="@+id/huit"
             android:layout_width="800px"

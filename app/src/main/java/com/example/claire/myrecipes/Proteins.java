@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import dao.IngredientDAO;
 
@@ -15,7 +16,14 @@ public class Proteins extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_proteins);
 
-        getSupportActionBar().setTitle("Proteins");
+        ImageButton button = (ImageButton) findViewById(R.id.homeButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), PersonalSpace.class);
+                startActivity(intent);
+            }
+        });
 
         Button buttonEggs = (Button)findViewById(R.id.premier);
         Button buttonDone = (Button)findViewById(R.id.second);

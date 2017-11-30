@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import dao.SessionDAO;
@@ -22,6 +23,7 @@ public class LogIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+        
         Button buttonLogin = (Button)findViewById(R.id.buttonLogin);
         username = (EditText) findViewById (R.id.username);
         password = (EditText) findViewById (R.id.password);

@@ -28,8 +28,6 @@
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
-
-
         </LinearLayout>
 
     </android.support.v7.widget.Toolbar>

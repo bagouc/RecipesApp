@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import dao.IngredientDAO;
 
@@ -15,7 +16,14 @@ public class Sugar extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sugar);
 
-        getSupportActionBar().setTitle("Sugar");
+        ImageButton button = (ImageButton) findViewById(R.id.homeButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), PersonalSpace.class);
+                startActivity(intent);
+            }
+        });
 
         Button buttonSugar = (Button)findViewById(R.id.premier);
         Button buttonHoney = (Button)findViewById(R.id.second);
