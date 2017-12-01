@@ -24,7 +24,8 @@ public class Welcome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
+        UserDAO userDAO = new UserDAO(getApplicationContext());
+       // userDAO.dropTable();
         Button buttonSignIn = (Button)findViewById(R.id.signIn);
         Button buttonLogIn = (Button)findViewById(R.id.logIn);
 

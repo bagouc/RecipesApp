@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import model.Ingredient;
@@ -34,6 +35,11 @@ public class IngredientDAO extends DAOBase {
             INGREDIENT_NAME + " TEXT, " +
             INGREDIENT_CATEGORY + " INTEGER)";
 
+    public static final String INGREDIENT_PROHIBITED_TABLE_NAME = "Ingredients";
+    public static final String INGREDIENT_PROHIBITED_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + INGREDIENT_PROHIBITED_TABLE_NAME + " (" +
+            INGREDIENT_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            INGREDIENT_USER + " INTEGER)";
+
     public static final String CATEGORY_TABLE_NAME = "Categories";
     public static final String CATEGORY_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + CATEGORY_TABLE_NAME + " (" +
             CATEGORY_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -51,6 +57,9 @@ public class IngredientDAO extends DAOBase {
             this.mDb.execSQL(CATEGORY_TABLE_CREATE);
             this.mDb.execSQL(INGREDIENT_TABLE_CREATE);
             this.mDb.execSQL(INGREDIENTS_SELECTED_TABLE_CREATE);
+            this.mDb.execSQL(INGREDIENT_PROHIBITED_TABLE_CREATE);
+            Ingredient i = getIngredient(1);
+            addIngredientProhibited(i, 1);
         }
         catch (Exception e) {
             Log.v("init(): ", e.getMessage());
@@ -69,6 +78,20 @@ public class IngredientDAO extends DAOBase {
         }
     }
 
+    public void addIngredientProhibited(Ingredient i, long id_user) {
+        ContentValues value = new ContentValues();
+        value.put(INGREDIENT_KEY, i.getId());
+        value.put(INGREDIENT_USER, id_user);
+        try {
+            mDb.insert(INGREDIENT_PROHIBITED_TABLE_NAME, null, value);
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("InsertError",chaine);
+        }
+    }
+
+
+
     public void addIngredientSelected(long id_ing, long id_user) {
         ContentValues value = new ContentValues();
         value.put(INGREDIENTS_SELECTED_KEY, id_ing);
@@ -83,6 +106,10 @@ public class IngredientDAO extends DAOBase {
 
     public void delete(long id) {
         mDb.delete(INGREDIENT_TABLE_NAME, INGREDIENT_KEY + " = ?", new String[] {String.valueOf(id)});
+    }
+
+    public void deleteIngredientProhibited(long id) {
+        mDb.delete(INGREDIENT_PROHIBITED_TABLE_NAME, INGREDIENT_KEY + "= ?", new String[] {String.valueOf(id)});
     }
 
     public void modify(Ingredient i) {
@@ -159,6 +186,55 @@ public class IngredientDAO extends DAOBase {
             Vector<Ingredient> list = new Vector<Ingredient>();
             while (d.moveToNext()) {
                 list.add(new Ingredient(d.getLong(0), d.getString(2), d.getInt(3)));
+            }
+            return list;
+
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("SelectError1",chaine);
+        }
+        return null;
+    }
+
+    public Ingredient getIngredient(long i ) {
+        try {
+            Cursor c = mDb.rawQuery("select * " + " " +
+                    " from " + INGREDIENT_TABLE_NAME + " where " + INGREDIENT_KEY + " = ?", new String[]{(i+"")});
+            c.moveToFirst();
+            Ingredient ing  = new Ingredient(c.getLong(0), c.getLong(1), c.getString(2), c.getInt(3));
+            return ing;
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("SelectError",chaine);
+        }
+        return null;
+    }
+
+    public Ingredient getIngredient(String i ) {
+        try {
+            Cursor c = mDb.rawQuery("select * " + " " +
+                    " from " + INGREDIENT_TABLE_NAME + " where " + INGREDIENT_NAME + " = ?", new String[]{i});
+            c.moveToFirst();
+            Ingredient ing  = new Ingredient(c.getLong(0), c.getLong(1), c.getString(2), c.getInt(3));
+            return ing;
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("SelectError",chaine);
+        }
+        return null;
+    }
+
+
+    public ArrayList<Ingredient> getListIngredientsProhibited(long id) {
+        try {
+            Cursor d = mDb.rawQuery("select " + INGREDIENT_KEY + ", " + INGREDIENT_USER +
+                    " from " + INGREDIENT_PROHIBITED_TABLE_NAME +
+                    " where " + INGREDIENT_USER + " = ?", new String[]{String.valueOf(id)});
+
+            ArrayList<Ingredient> list = new ArrayList<>();
+            while (d.moveToNext()) {
+                Ingredient i = getIngredient(d.getLong(0));
+                list.add(i);
             }
             return list;
 

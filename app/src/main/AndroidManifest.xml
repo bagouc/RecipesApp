@@ -48,8 +48,8 @@
         <activity android:name=".Preferences" />
         <activity android:name=".ExcludeIngredient" />
         <activity android:name=".ExcludeCategory" />
-
-
+        <activity android:name=".listRow" />
+        <activity android:name=".Preferences2"></activity>
     </application>
 
 </manifest>
