@@ -1,6 +1,8 @@
 package com.example.claire.myrecipes;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,8 +28,9 @@ public class Welcome extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
-        Button buttonSignIn = (Button)findViewById(R.id.signIn);
+        UserDAO userDAO = new UserDAO(getApplicationContext());
+       // userDAO.dropTable();
+        final Button buttonSignIn = (Button)findViewById(R.id.signIn);
         Button buttonLogIn = (Button)findViewById(R.id.logIn);
 
         RecipeDAO recipeDAO = new RecipeDAO(getBaseContext());

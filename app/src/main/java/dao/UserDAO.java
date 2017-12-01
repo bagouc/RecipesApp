@@ -35,6 +35,10 @@ public class UserDAO extends DAOBase{
         }
     }
 
+    public void dropTable() {
+        this.mDb.execSQL(USER_TABLE_DROP);
+    }
+
     public void add(User u) {
         ContentValues value = new ContentValues();
         value.put(USER_NAME, u.getUsername());

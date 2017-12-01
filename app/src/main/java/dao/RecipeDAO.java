@@ -267,7 +267,7 @@ public class RecipeDAO extends DAOBase {
 
         Vector<Recipe> results = new Vector<Recipe>();
 
-        int numberOfSuggestions = 50;
+        int numberOfSuggestions = 5;
 
         try {
             Cursor c = mDb.rawQuery("select " + RECIPE_KEY + ", " + RECIPE_USER + ", "
