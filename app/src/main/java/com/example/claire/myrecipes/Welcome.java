@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.Date;
 import java.util.Vector;
+import java.util.concurrent.TimeUnit;
 
 import dao.IngredientDAO;
 import dao.RecipeDAO;
@@ -71,29 +73,21 @@ public class Welcome extends AppCompatActivity {
         Vector<Ingredient> forbidden = new Vector<Ingredient>();
         forbidden.add(new Ingredient("eggs", 0));
 
-        recipeDAO.add(new Recipe(0,0,"Recipe1", ingList, ""));
+        String s = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
+        recipeDAO.add(new Recipe(0,0,"Recipe1", ingList, s));
         ingList.remove(0);
-        recipeDAO.add(new Recipe(0,0,"Recipe2", ingList, ""));
+        recipeDAO.add(new Recipe(0,0,"Recipe2", ingList, s));
         ingList.remove(0);
-        recipeDAO.add(new Recipe(0,0,"Recipe3", ingList, ""));
+        recipeDAO.add(new Recipe(0,0,"Recipe3", ingList, s));
         ingList.remove(0);
-        recipeDAO.add(new Recipe(0,0,"Recipe4", ingList, ""));
-        ingList.remove(0);
+        recipeDAO.add(new Recipe(0,0,"Recipe4", ingList, s));
+        recipeDAO.add(new Recipe(0,0,"Recipe5", ingList, s));
+        recipeDAO.add(new Recipe(0,0,"Recipe6", ingList, s));
+        recipeDAO.add(new Recipe(0,0,"Recipe7", ingList, s));
+        recipeDAO.add(new Recipe(0,0,"Recipe8", ingList, s));
+        recipeDAO.add(new Recipe(0,0,"Recipe9", ingList, s));
 
-
-        /*Vector<Recipe> results = recipeDAO.searchRecipes(wanted, forbidden);
-
-        String s = "Search 1: ";
-        for (int i = 0; i < results.size(); i++) {
-            s += "\n\n" + results.get(i).toString();
-        }
-
-        s += "\n\nSearch 2: ";
-        results = recipeDAO.searchRecipes(new Vector<Ingredient>(), new Vector<Ingredient>());
-        for (int i = 0; i < results.size(); i++) {
-            s += "\n\n" + results.get(i).toString();
-        }
-        textView.setText(s); */
+        buttonLogIn.setText("day: " + new Date(new Date().getTime()+ TimeUnit.DAYS.toMillis(4)).toString());
 
         buttonLogIn.setOnClickListener(new View.OnClickListener() {
             @Override

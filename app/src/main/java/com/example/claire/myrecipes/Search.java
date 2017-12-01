@@ -17,6 +17,10 @@ public class Search extends AppCompatActivity {
 
         Button buttonSelectIngredients = (Button)findViewById(R.id.premier);
         Button buttonSuggestions = (Button)findViewById(R.id.second);
+        Button buttonSearchHistory = (Button)findViewById(R.id.trois);
+        Button buttonLastRecipes = (Button)findViewById(R.id.quatre);
+        Button buttonFavoriteRecipes = (Button)findViewById(R.id.cinq);
+
         ImageButton button = (ImageButton) findViewById(R.id.homeButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,6 +42,27 @@ public class Search extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), Suggestions.class);
+                getBaseContext().startActivity(intent);
+            }
+        });
+        buttonSearchHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), SearchHistory.class);
+                getBaseContext().startActivity(intent);
+            }
+        });
+        buttonLastRecipes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), UserHistory.class);
+                getBaseContext().startActivity(intent);
+            }
+        });
+        buttonFavoriteRecipes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), FavoriteRecipes.class);
                 getBaseContext().startActivity(intent);
             }
         });
