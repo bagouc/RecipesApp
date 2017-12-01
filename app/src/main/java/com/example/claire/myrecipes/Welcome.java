@@ -86,8 +86,12 @@ public class Welcome extends AppCompatActivity {
         recipeDAO.add(new Recipe(0,0,"Recipe7", ingList, s));
         recipeDAO.add(new Recipe(0,0,"Recipe8", ingList, s));
         recipeDAO.add(new Recipe(0,0,"Recipe9", ingList, s));
+        recipeDAO.add(new Recipe(0,0,"Recipe10", ingList, s));
+        recipeDAO.add(new Recipe(0,0,"Recipe11", ingList, s));
+        recipeDAO.add(new Recipe(0,0,"Recipe12", ingList, s));
+        recipeDAO.add(new Recipe(0,0,"Recipe13", ingList, s));
+        recipeDAO.add(new Recipe(0,0,"Recipe14", ingList, s));
 
-        buttonLogIn.setText("day: " + new Date(new Date().getTime()+ TimeUnit.DAYS.toMillis(4)).toString());
 
         buttonLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
