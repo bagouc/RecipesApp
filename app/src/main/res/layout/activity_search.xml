@@ -68,6 +68,26 @@
             android:layout_height="wrap_content"
             android:text="Suggestions" />
 
+        <Button
+            android:id="@+id/trois"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:text="Last searches" />
+
+        <Button
+            android:id="@+id/quatre"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:text="Recent Recipes" />
+
+        <Button
+            android:id="@+id/cinq"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:text="Favorite Recipes" />
 
 
     </LinearLayout>

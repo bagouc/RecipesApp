@@ -41,7 +41,7 @@ public class PersonalSpace extends AppCompatActivity {
             Button buttonAddIngredient = (Button)findViewById(R.id.six);
             Button buttonSharedSpace = (Button)findViewById(R.id.sept);
             Button buttonSettings = (Button)findViewById(R.id.huit);
-      //      Button buttonShops = (Button)findViewById(R.id.neuf);
+            Button buttonShops = (Button)findViewById(R.id.neuf);
 
             buttonSettings.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -107,14 +107,14 @@ public class PersonalSpace extends AppCompatActivity {
                 }
             });
 
-           /* buttonShops.setOnClickListener(new View.OnClickListener() {
+           buttonShops.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(getBaseContext(), Shops.class);
+                    Intent intent = new Intent(getBaseContext(), MapsActivity.class);
                     getBaseContext().startActivity(intent);
                 }
             });
-            */
+
 
 
 
