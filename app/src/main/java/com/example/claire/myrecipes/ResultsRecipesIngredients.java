@@ -43,7 +43,8 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
         Vector<Ingredient> ing_list_wanted =  ingredientDAO.getListIngredientsSelected(user.getId());
 
         // TO CHANGE when allergies are implemented and settings
-        Vector<Ingredient> forbidden = new Vector<Ingredient>();
+        Vector<Ingredient> forbidden = ingredientDAO.getVectorListIngredientProhibited(user.getId());
+
 
         RecipeDAO recipeDAO = new RecipeDAO(getBaseContext());
         Vector<Recipe> results = recipeDAO.searchRecipes(ing_list_wanted, forbidden);

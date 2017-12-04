@@ -36,6 +36,8 @@ public class Welcome extends AppCompatActivity {
         ingredientDAO.dropTableIngredientSelected();
         ingredientDAO.dropTableIngredients();
         ingredientDAO.dropTableCategories();
+
+        //ingredientDAO.dropTableCategoriesProhibited();
         ingredientDAO = new IngredientDAO(getBaseContext());
         SessionDAO sessionDAO = new SessionDAO(getBaseContext());
         sessionDAO.dropTable();
@@ -48,17 +50,28 @@ public class Welcome extends AppCompatActivity {
         ingredientDAO.addCategory("Fruits"); //6
         ingredientDAO.addCategory("Spices"); //7
         ingredientDAO.addCategory("Sugar"); //8
+        long id_proteins = ingredientDAO.getIdCategory("Proteins");
+        long id_vegetables = ingredientDAO.getIdCategory("Vegetables");
+        long id_fats = ingredientDAO.getIdCategory("Fats");
+        long id_fibre = ingredientDAO.getIdCategory("Fibre");
+        long id_dairy = ingredientDAO.getIdCategory("Dairy");
+        long id_fruits = ingredientDAO.getIdCategory("Fruits");
+        long id_sugar = ingredientDAO.getIdCategory("Sugar");
+        long id_spices = ingredientDAO.getIdCategory("Spices");
 
-        Ingredient sugar = new Ingredient("sugar", 8); //1
+        Ingredient sugar = new Ingredient("sugar", id_sugar, -1); //1
         ingredientDAO.add(sugar);
-        Ingredient eggs = new Ingredient("eggs", 1); //2
+        Ingredient eggs = new Ingredient("eggs", id_proteins, -1); //2
         ingredientDAO.add(eggs);
-        Ingredient milk = new Ingredient("milk", 5); //3
-        ingredientDAO.add(sugar);
-        Ingredient honey = new Ingredient("honey", 8); //4
+        Ingredient milk = new Ingredient("milk", id_dairy,-1); //3
+        ingredientDAO.add(milk);
+        Ingredient honey = new Ingredient("honey", id_sugar, -1); //4
         ingredientDAO.add(honey);
-        Ingredient chocolate = new Ingredient("chocolate", 8); //5
+        Ingredient chocolate = new Ingredient("chocolate", id_sugar, -1); //5
         ingredientDAO.add(chocolate);
+        Ingredient huile = new Ingredient("Oliv oil", id_fats, -1);
+        ingredientDAO.add(huile);
+
 
         Vector<Ingredient> ingList = new Vector<Ingredient>();
         ingList.add(new Ingredient("sugar", 8));

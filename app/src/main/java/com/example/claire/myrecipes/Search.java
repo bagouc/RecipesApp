@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import dao.IngredientDAO;
+
 public class Search extends AppCompatActivity {
 
     @Override
@@ -14,7 +16,8 @@ public class Search extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-
+        IngredientDAO ingredientDAO = new IngredientDAO(getApplicationContext());
+        ingredientDAO.dropTableIngredientSelected();
         Button buttonSelectIngredients = (Button)findViewById(R.id.premier);
         Button buttonSuggestions = (Button)findViewById(R.id.second);
         ImageButton button = (ImageButton) findViewById(R.id.homeButton);
