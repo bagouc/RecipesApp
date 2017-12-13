@@ -15,6 +15,6 @@
         <item>Fats</item>
         <item>Fibre</item>
     </string-array>
-    <string name="title_activity_shops">Map</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>
