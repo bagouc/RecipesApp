@@ -12,21 +12,36 @@ public class Ingredient {
     private long id;
     private long idUser;
     private String name;
-    private int category;
+    private long category;
 
-    public Ingredient(long id, long idUser, String name, int category) {
+    public Ingredient(long id, long idUser, String name, long category) {
         this.id = id;
         this.idUser = idUser;
         this.name = name;
         this.category = category;
     }
 
-    public Ingredient(String name, int category) {
+    public Ingredient(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Ingredient(String name, long category) {
         this.name = name;
         this.category = category;
     }
 
-    public Ingredient(long i, String name, int category) {
+    public Ingredient(String name, long category, long idUser) {
+        this.name = name;
+        this.category = category;
+        this.idUser = idUser;
+    }
+
+    public Ingredient(String name) {
+        this.name = name;
+    }
+
+    public Ingredient(long i, String name, long category) {
         this.id = i;
         this.name = name;
         this.category = category;
@@ -65,7 +80,7 @@ public class Ingredient {
         this.name = name;
     }
 
-    public int getCategory() {
+    public long getCategory() {
         return category;
     }
 

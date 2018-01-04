@@ -35,6 +35,15 @@ public class FavoriteRecipes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_recipes);
 
+        ImageButton button = (ImageButton) findViewById(R.id.homeButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), PersonalSpace.class);
+                startActivity(intent);
+            }
+        });
+
         TextView log = (TextView) findViewById(R.id.title);
         ListView listView;
         final List<String> resultList = new ArrayList();

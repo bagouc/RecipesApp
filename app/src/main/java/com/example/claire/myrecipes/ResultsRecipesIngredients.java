@@ -61,7 +61,7 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
 
         String APP_ID = "fbb04b83";
         String APP_KEY = "cace497a10f7a920e8b80d86713c907c";
-// Instantiate the RequestQueue.
+        // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
         String searchTerm = "";
 
@@ -82,9 +82,10 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
             searchTerm = ing_list_wanted.get(0).getName();
         String url = "https://api.edamam.com/search?q=" + searchTerm + "&app_id=" + APP_ID + "&app_key=" + APP_KEY + "&from=0&to=20&calories=gte%20591,%20lte%20722&health=alcohol-free";
 
-        // TO CHANGE when allergies are implemented and settings
-        forbidden = new Vector<Ingredient>();
+
         resultsAPI = new Vector<>();
+
+        forbidden = ingredientDAO.getVectorListIngredientProhibited(user.getId());
 
         //Display search criteria
         String s = "";
@@ -138,13 +139,11 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
                                 }
                                 if (checkConditions(ing, ing_list_wanted, forbidden)) {
                                     resultsAPI.add(new OnlineRecipe(recipeJSON.getString("url"), recipeJSON.getString("label"), ing, recipeJSON.getString("image")));
-                                    searchView.setText("condition true");
                                 }
                             }
-                            searchView.setText(searchView.getText() + " done");
                             fillList();
                         } catch (Exception e) {
-                            searchView.setText("ERROR: " + e.getMessage());
+                            Log.v("ERROR: ", e.getMessage());
                         }
                     }
                 }, new Response.ErrorListener() {

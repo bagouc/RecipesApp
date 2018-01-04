@@ -64,12 +64,7 @@ public class Preferences extends AppCompatActivity {
         SessionDAO sessionDAO = new SessionDAO(getApplicationContext());
         User u = sessionDAO.getUserConnected(getApplicationContext());
         IngredientDAO ingredientDAO = new IngredientDAO(getApplicationContext());
-       // ArrayList<Ingredient> ingredientList = ingredientDAO.getListIngredientsProhibited(u.getId());
-        ArrayList<Ingredient> ingredientList = new ArrayList<>();
-        Ingredient i1 = new Ingredient(1, 1, "sucre", 2);
-        Ingredient i2 = new Ingredient(1, 1, "chocolat", 2);
-        ingredientList.add(i1);
-        ingredientList.add(i2);
+        ArrayList<Ingredient> ingredientList = ingredientDAO.getListIngredientsProhibited(u.getId());
         loadList(ingredientList);
 
 
@@ -93,9 +88,17 @@ public class Preferences extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
-                        ingredientDAO.deleteIngredientProhibited(((Ingredient)input).getId());
-                        Toast.makeText(getBaseContext(), "deleted with success",
-                                Toast.LENGTH_SHORT).show();
+                        Ingredient i = (Ingredient)input;
+                        if (i.getId() < 0) {
+                            // it is a category
+                            ingredientDAO.deleteCategoryProhibited(i.getName());
+                            Toast.makeText(getBaseContext(), "category deleted with success",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            ingredientDAO.deleteIngredientProhibited(((Ingredient) input).getId());
+                            Toast.makeText(getBaseContext(), "ingredient deleted with success",
+                                    Toast.LENGTH_SHORT).show();
+                        }
                         Intent intent = new Intent(getBaseContext(), Preferences.class);
                         startActivity(intent);
                     }
