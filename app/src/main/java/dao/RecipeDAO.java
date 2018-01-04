@@ -14,6 +14,7 @@ import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 
 import model.Ingredient;
+import model.OnlineRecipe;
 import model.Recipe;
 import model.User;
 import model.UserSearch;
@@ -38,6 +39,18 @@ public class RecipeDAO extends DAOBase {
             RECIPE_USER + " INTEGER, " +
             RECIPE_INGREDIENTS + " TEXT, " +
             RECIPE_INSTRUCTIONS + " TEXT)";
+
+    public static final String ONLINE_RECIPE_URL = "url";
+    public static final String ONLINE_RECIPE_TITLE = "title";
+    public static final String ONLINE_RECIPE_IMGURL = "img";
+    public static final String ONLINE_RECIPE_INGREDIENTS = "ingredients";
+
+    public static final String ONLINE_RECIPE_TABLE_NAME = "Online_Recipes";
+    public static final String ONLINE_RECIPE_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + ONLINE_RECIPE_TABLE_NAME + " (" +
+            ONLINE_RECIPE_TITLE + " TEXT, " +
+            ONLINE_RECIPE_URL + " TEXT, " +
+            ONLINE_RECIPE_INGREDIENTS + " TEXT, " +
+            ONLINE_RECIPE_IMGURL + " TEXT)";
 
     public static final String SEARCH_KEY = "id";
     public static final String SEARCH_INGREDIENTS = "ingredients";
@@ -65,6 +78,19 @@ public class RecipeDAO extends DAOBase {
             RECIPE_SELECTED_LASTVIEWED + " INTEGER, " +
             RECIPE_SELECTED_LASTCOOKED + " INTEGER)";
 
+    public static final String ONLINE_RECIPE_SELECTED_KEY = "id_rec";
+    public static final String ONLINE_RECIPE_SELECTED_USER = "id_user";
+    public static final String ONLINE_RECIPE_SELECTED_LASTVIEWED = "lastviewed";
+    public static final String ONLINE_RECIPE_SELECTED_LASTCOOKED = "lastcooked";
+    public static final String ONLINE_RECIPE_SELECTED_FAVORITE = "fav";
+
+    public static final String ONLINE_RECIPE_SELECTED_TABLE_NAME = "Online_recipes_selected";
+    public static final String ONLINE_RECIPE_SELECTED_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + ONLINE_RECIPE_SELECTED_TABLE_NAME + "(" +
+            ONLINE_RECIPE_SELECTED_KEY + " TEXT, " + //url
+            ONLINE_RECIPE_SELECTED_USER + " INTEGER, " +
+            ONLINE_RECIPE_SELECTED_FAVORITE + " INTEGER, " +
+            ONLINE_RECIPE_SELECTED_LASTVIEWED + " INTEGER, " +
+            ONLINE_RECIPE_SELECTED_LASTCOOKED + " INTEGER)";
 
     public RecipeDAO (Context context) {
         super(context);
@@ -73,11 +99,17 @@ public class RecipeDAO extends DAOBase {
             this.mDb.execSQL(RECIPE_TABLE_CREATE);
             this.mDb.execSQL(SEARCH_TABLE_CREATE);
             this.mDb.execSQL(RECIPE_SELECTED_TABLE_CREATE);
+            this.mDb.execSQL(ONLINE_RECIPE_TABLE_CREATE);
+            this.mDb.execSQL(ONLINE_RECIPE_SELECTED_TABLE_CREATE);
             Log.v("SUCCESS!", "");
         }
         catch (Exception e) {
             Log.v("init(): ", e.getMessage());
         }
+    }
+
+    public void execCommand(String command) {
+        mDb.execSQL(command);
     }
 
     public void add(Recipe r) {
@@ -88,6 +120,26 @@ public class RecipeDAO extends DAOBase {
         value.put(RECIPE_INSTRUCTIONS, r.getInstructions());
         try {
             mDb.insert(RECIPE_TABLE_NAME, null, value);
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("InsertError",chaine);
+        }
+    }
+
+    public void addOnlineRecipe(OnlineRecipe r) {
+
+        //Check if recipe already in database
+        Cursor c = mDb.rawQuery("select " + ONLINE_RECIPE_URL + " from " + ONLINE_RECIPE_TABLE_NAME +
+                " where " + ONLINE_RECIPE_URL + " =?", new String[]{r.getUrl()});
+        if (c.moveToNext()) return;
+
+        ContentValues value = new ContentValues();
+        value.put(ONLINE_RECIPE_TITLE, r.getTitle());
+        value.put(ONLINE_RECIPE_IMGURL, r.getImgUrl());
+        value.put(RECIPE_INGREDIENTS, ingredientListToJSON(r.getIngredients()).toString());
+        value.put(ONLINE_RECIPE_URL, r.getUrl());
+        try {
+            mDb.insert(ONLINE_RECIPE_TABLE_NAME, null, value);
         } catch (Exception e) {
             String chaine = e.getMessage();
             Log.v("InsertError",chaine);
@@ -254,7 +306,6 @@ public class RecipeDAO extends DAOBase {
                         ingredientList.add(new Ingredient(jarr.getJSONObject(i)));
                     }
                     Recipe r = new Recipe(c.getInt(0), c.getInt(1), c.getString(2), ingredientList, c.getString(4));
-                    r.setLastCooked(c.getLong(7));
                     results.add(r);
             }
         } catch (Exception e) {
@@ -402,5 +453,154 @@ public class RecipeDAO extends DAOBase {
             value.put(RECIPE_SELECTED_LASTVIEWED, 0);
             mDb.insert(RECIPE_SELECTED_TABLE_NAME, null, value);
         }
+    }
+
+
+    public String setOnlineViewed(OnlineRecipe onlineRecipe, long userId) {
+
+        String debug = "";
+        addOnlineRecipe(onlineRecipe);
+        //check if recipe already in selected recipe database
+
+        Cursor c = mDb.rawQuery("select " + ONLINE_RECIPE_SELECTED_KEY + ", " + ONLINE_RECIPE_SELECTED_USER + " FROM " +
+                ONLINE_RECIPE_SELECTED_TABLE_NAME + " WHERE " + ONLINE_RECIPE_SELECTED_USER + " = ? AND " + ONLINE_RECIPE_SELECTED_KEY + " = ?", new String[]{Long.toString(userId), onlineRecipe.getUrl()});
+        ContentValues value = new ContentValues();
+        value.put(ONLINE_RECIPE_SELECTED_LASTVIEWED, new Date().getTime());
+        if (c.moveToNext()) {
+            mDb.update(ONLINE_RECIPE_SELECTED_TABLE_NAME, value, ONLINE_RECIPE_SELECTED_KEY + " = ? AND " + ONLINE_RECIPE_SELECTED_USER + " = ?", new String[] {onlineRecipe.getUrl(), Long.toString(userId)});
+        }
+        else {
+            value.put(ONLINE_RECIPE_SELECTED_USER, userId);
+            value.put(ONLINE_RECIPE_SELECTED_KEY, onlineRecipe.getUrl());
+            value.put(ONLINE_RECIPE_SELECTED_FAVORITE, 0);
+            value.put(ONLINE_RECIPE_SELECTED_LASTCOOKED, 0);
+            mDb.insert(ONLINE_RECIPE_SELECTED_TABLE_NAME, null, value);
+        }
+        return debug;
+    }
+
+    public void setOnlineCooked(String url, long userId) {
+
+        Cursor c = mDb.rawQuery("select " + ONLINE_RECIPE_SELECTED_KEY + ", " + ONLINE_RECIPE_SELECTED_USER + " FROM " +
+                ONLINE_RECIPE_SELECTED_TABLE_NAME + " WHERE " + ONLINE_RECIPE_SELECTED_USER + " = ? AND " + ONLINE_RECIPE_SELECTED_KEY + " = ?", new String[]{Long.toString(userId), url});
+        ContentValues value = new ContentValues();
+        value.put(ONLINE_RECIPE_SELECTED_LASTCOOKED, new Date().getTime());
+        if (c.moveToNext()) {
+            mDb.update(ONLINE_RECIPE_SELECTED_TABLE_NAME, value, ONLINE_RECIPE_SELECTED_KEY + " = ? AND " + ONLINE_RECIPE_SELECTED_USER + " = ?", new String[] {url, Long.toString(userId)});
+        }
+        else {
+            value.put(ONLINE_RECIPE_SELECTED_USER, userId);
+            value.put(ONLINE_RECIPE_SELECTED_KEY, url);
+            value.put(ONLINE_RECIPE_SELECTED_FAVORITE, 0);
+            value.put(ONLINE_RECIPE_SELECTED_LASTVIEWED, 0);
+            mDb.insert(ONLINE_RECIPE_SELECTED_TABLE_NAME, null, value);
+        }
+    }
+
+    public void setOnlineFavorite(String url, long userId, boolean fav) {
+        Cursor c = mDb.rawQuery("select " + ONLINE_RECIPE_SELECTED_KEY + ", " + ONLINE_RECIPE_SELECTED_USER + " FROM " +
+                ONLINE_RECIPE_SELECTED_TABLE_NAME + " WHERE " + ONLINE_RECIPE_SELECTED_USER + " = ? AND " + ONLINE_RECIPE_SELECTED_KEY + " = ?", new String[]{Long.toString(userId), url});
+        ContentValues value = new ContentValues();
+        int favorite = fav ? 1 : 0;
+        value.put(ONLINE_RECIPE_SELECTED_FAVORITE, favorite);
+        if (c.moveToNext()) {
+            mDb.update(ONLINE_RECIPE_SELECTED_TABLE_NAME, value, ONLINE_RECIPE_SELECTED_KEY + " = ? AND " + ONLINE_RECIPE_SELECTED_USER + " = ?", new String[] {url, Long.toString(userId)});
+        }
+        else {
+            value.put(ONLINE_RECIPE_SELECTED_USER, userId);
+            value.put(ONLINE_RECIPE_SELECTED_KEY, url);
+            value.put(ONLINE_RECIPE_SELECTED_LASTCOOKED, 0);
+            value.put(ONLINE_RECIPE_SELECTED_LASTVIEWED, 0);
+            mDb.insert(ONLINE_RECIPE_SELECTED_TABLE_NAME, null, value);
+        }
+    }
+
+    public Vector<OnlineRecipe> getOnlineRecipesLastViewed(long userId) {
+
+        Vector<OnlineRecipe> results = new Vector<OnlineRecipe>();
+
+        try {
+            Cursor c = mDb.rawQuery("select " + ONLINE_RECIPE_URL + ", " + ONLINE_RECIPE_TITLE + ", " +
+                            ONLINE_RECIPE_INGREDIENTS + ", " + ONLINE_RECIPE_IMGURL +
+                            ", " + ONLINE_RECIPE_SELECTED_KEY + ", " + ONLINE_RECIPE_SELECTED_USER + ", " + ONLINE_RECIPE_SELECTED_LASTVIEWED +
+                            " from " + ONLINE_RECIPE_TABLE_NAME + " inner join " + ONLINE_RECIPE_SELECTED_TABLE_NAME +
+                            " on " + ONLINE_RECIPE_TABLE_NAME + "." + ONLINE_RECIPE_URL + " = " + ONLINE_RECIPE_SELECTED_TABLE_NAME + "." + ONLINE_RECIPE_SELECTED_KEY +
+                            " where " + ONLINE_RECIPE_SELECTED_USER + " = ?",
+                    new String[]{Long.toString(userId)});
+
+            while (c.moveToNext()) {
+                //only add recipe if lastViewed is not default value (0)
+                if (c.getLong(6) != 0) {
+                    JSONArray jarr = new JSONArray(c.getString(2));
+                    Vector<Ingredient> ingredientList = new Vector<Ingredient>();
+                    for (int i = 0; i < jarr.length(); i++) {
+                        ingredientList.add(new Ingredient(jarr.getJSONObject(i)));
+                    }
+                    OnlineRecipe r = new OnlineRecipe(c.getString(0), c.getString(1), ingredientList, c.getString(4));
+                    r.setLastViewed(c.getLong(6));
+                    results.add(r);
+                }
+            }
+        } catch (Exception e) {
+            Log.v("searchError: ", e.getMessage());
+        }
+        return results;
+    }
+
+    public Vector<OnlineRecipe> getOnlineRecipesLastCooked(long userId) {
+
+        Vector<OnlineRecipe> results = new Vector<OnlineRecipe>();
+
+        try {
+            Cursor c = mDb.rawQuery("select " + ONLINE_RECIPE_URL + ", " + ONLINE_RECIPE_TITLE + ", " + ONLINE_RECIPE_INGREDIENTS + ", " + ONLINE_RECIPE_IMGURL +
+                            ", " + ONLINE_RECIPE_SELECTED_KEY + ", " + ONLINE_RECIPE_SELECTED_USER + ", " + ONLINE_RECIPE_SELECTED_LASTCOOKED +
+                            " from " + ONLINE_RECIPE_TABLE_NAME + " inner join " + ONLINE_RECIPE_SELECTED_TABLE_NAME +
+                            " on " + ONLINE_RECIPE_TABLE_NAME + "." + ONLINE_RECIPE_URL + " = " + ONLINE_RECIPE_SELECTED_TABLE_NAME + "." + ONLINE_RECIPE_SELECTED_KEY +
+                            " where " + ONLINE_RECIPE_SELECTED_USER + " = ?",
+                    new String[]{Long.toString(userId)});
+
+            while (c.moveToNext()) {
+                //only add recipe if lastCooked is not default value (0)
+                if (c.getLong(6) != 0) {
+                    JSONArray jarr = new JSONArray(c.getString(2));
+                    Vector<Ingredient> ingredientList = new Vector<Ingredient>();
+                    for (int i = 0; i < jarr.length(); i++) {
+                        ingredientList.add(new Ingredient(jarr.getJSONObject(i)));
+                    }
+                    OnlineRecipe r = new OnlineRecipe(c.getString(0), c.getString(1), ingredientList, c.getString(4));
+                    r.setLastCooked(c.getLong(6));
+                    results.add(r);
+                }
+            }
+        } catch (Exception e) {
+            Log.v("searchError: ", e.getMessage());
+        }
+        return results;
+    }
+
+    public Vector<OnlineRecipe> getOnlineFavorites(long userId) {
+
+        Vector<OnlineRecipe> results = new Vector<OnlineRecipe>();
+
+        try {
+            Cursor c = mDb.rawQuery("select " + ONLINE_RECIPE_URL + ", " + ONLINE_RECIPE_TITLE + ", " + ONLINE_RECIPE_INGREDIENTS + ", " + ONLINE_RECIPE_IMGURL +
+                            ", " + ONLINE_RECIPE_SELECTED_KEY + ", " + ONLINE_RECIPE_SELECTED_USER + ", " + ONLINE_RECIPE_SELECTED_FAVORITE +
+                            " from " + ONLINE_RECIPE_TABLE_NAME + " inner join " + ONLINE_RECIPE_SELECTED_TABLE_NAME +
+                            " on " + ONLINE_RECIPE_TABLE_NAME + "." + ONLINE_RECIPE_URL + " = " + ONLINE_RECIPE_SELECTED_TABLE_NAME + "." + ONLINE_RECIPE_SELECTED_KEY +
+                            " where " + ONLINE_RECIPE_SELECTED_USER + " = ? AND " + ONLINE_RECIPE_SELECTED_FAVORITE + " = ?",
+                    new String[]{Long.toString(userId), "1"});
+            while (c.moveToNext()) {
+                JSONArray jarr = new JSONArray(c.getString(2));
+                Vector<Ingredient> ingredientList = new Vector<Ingredient>();
+                for (int i = 0; i < jarr.length(); i++) {
+                    ingredientList.add(new Ingredient(jarr.getJSONObject(i)));
+                }
+                OnlineRecipe r = new OnlineRecipe(c.getString(0), c.getString(1), ingredientList, c.getString(3));
+                results.add(r);
+            }
+        } catch (Exception e) {
+            Log.v("searchError: ", e.getMessage());
+        }
+        return results;
     }
 }
