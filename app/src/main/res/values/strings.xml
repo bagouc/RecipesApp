@@ -15,6 +15,7 @@
         <item>Fats</item>
         <item>Fibre</item>
     </string-array>
+
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_settings2">Settings2</string>
     <string name="action_settings">Settings</string>
