@@ -4,8 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.claire.myrecipes.ExcludeCategory">
-
+    tools:context="com.example.claire.myrecipes.FatsProhib">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,7 +28,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:text="Exclude categories"
+                    android:text="Fats"
                     android:textColor="@color/white"
                     android:textSize="20dp" />
 
@@ -72,8 +71,8 @@
                 android:layout_width="400px"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="50dp"
-                android:text="SAVE" />
+                android:layout_marginTop="300dp"
+                android:text="Save and return to Preferences" />
 
 
         </LinearLayout>

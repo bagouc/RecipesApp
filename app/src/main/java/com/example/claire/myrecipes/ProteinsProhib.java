@@ -3,14 +3,12 @@ package com.example.claire.myrecipes;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Spinner;
 
 import java.util.ArrayList;
 
@@ -19,15 +17,15 @@ import dao.SessionDAO;
 import model.Ingredient;
 import model.User;
 
-public class ExcludeCategory extends AppCompatActivity {
+public class ProteinsProhib extends AppCompatActivity {
     private ListView listView;
     private long id_user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_proteins_prohib);
 
-        setContentView(R.layout.activity_exclude_category);
         ImageButton button = (ImageButton) findViewById(R.id.homeButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,7 +41,8 @@ public class ExcludeCategory extends AppCompatActivity {
         id_user = u.getId();
 
         listView = (ListView) findViewById(R.id.listView);
-        ArrayList<String> list = ingredientDAO.getCategories();
+        long id_cat = ingredientDAO.getIdCategory("Proteins");
+        ArrayList<String> list = ingredientDAO.getIngredientFromCategory(id_cat);
 
 
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -52,8 +51,8 @@ public class ExcludeCategory extends AppCompatActivity {
 
         int i = 0;
         while (i < list.size()) {
-            long id_cat = ingredientDAO.getIdCategory(list.get(i));
-            if (ingredientDAO.isCategoryProhibited(id_cat, u.getId())) {
+            Ingredient ingredient = ingredientDAO.getIngredient(list.get(i));
+            if (ingredientDAO.isProhibited(ingredient.getId(), u.getId())) {
                 listView.setItemChecked(i, true);
             }
             i++;
@@ -62,26 +61,27 @@ public class ExcludeCategory extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String ing = (String)listView.getItemAtPosition(position);
+                String ing = (String) listView.getItemAtPosition(position);
                 if (listView.isItemChecked(position)) {
-                    // on enregistre dans les categories selected
-                    long id_cat = ingredientDAO.getIdCategory(ing);
-                    ingredientDAO.addCategoryProhibited(id_cat, id_user);
+                    // on enregistre dans les ingredients selected
+                    Ingredient ingredient = ingredientDAO.getIngredient(ing);
+                    ingredientDAO.addIngredientProhibited(ingredient, id_user);
                 } else {
-                    ingredientDAO.deleteCategoryProhibited(ing, id_user);
+                    Ingredient ingredient = ingredientDAO.getIngredient(ing);
+                    ingredientDAO.deleteIngredientProhibited(ingredient.getId());
                 }
             }
         });
 
 
-        Button buttonSave = (Button) findViewById(R.id.second);
-        buttonSave.setOnClickListener(new View.OnClickListener() {
+        Button buttonDone = (Button) findViewById(R.id.second);
+
+        buttonDone.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), Preferences.class);
-                startActivity(intent);
+                getBaseContext().startActivity(intent);
             }
         });
     }
-
 }

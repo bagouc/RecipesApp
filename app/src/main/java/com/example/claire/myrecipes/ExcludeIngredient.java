@@ -25,192 +25,101 @@ public class ExcludeIngredient extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exclude_ingredient);
 
-        ImageButton button = (ImageButton) findViewById(R.id.homeButton);
-        button.setOnClickListener(new View.OnClickListener() {
+        final IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
+        ingredientDAO.dropTableIngredientSelected();
+        SessionDAO sessionDAO = new SessionDAO(getApplicationContext());
+        final User u = sessionDAO.getUserConnected(getApplicationContext());
+
+        Button buttonProteins = (Button) findViewById(R.id.premier);
+        Button buttonVegetables = (Button) findViewById(R.id.second);
+        Button buttonFibre = (Button) findViewById(R.id.trois);
+        Button buttonFats = (Button) findViewById(R.id.quatre);
+        Button buttonFruits = (Button) findViewById(R.id.cinq);
+        Button buttonSpices = (Button) findViewById(R.id.six);
+        Button buttonSugar = (Button) findViewById(R.id.sept);
+        Button buttonDairy = (Button) findViewById(R.id.huit);
+
+        buttonProteins.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), PersonalSpace.class);
-                startActivity(intent);
+            public void onClick(View v) {
+                long id_cat = ingredientDAO.getIdCategory("Proteins");
+                if (ingredientDAO.isCategoryProhibited(id_cat, u.getId())) {
+                    Toast.makeText(getBaseContext(), "This category is already excluded",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getBaseContext(), ProteinsProhib.class);
+                    getBaseContext().startActivity(intent);
+                }
             }
         });
 
-        initSpinners();
-
-        Button buttonSave = (Button) findViewById(R.id.buttonSave);
-        buttonSave.setOnClickListener(new View.OnClickListener() {
+        buttonVegetables.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
-                SessionDAO sessionDAO = new SessionDAO(getBaseContext());
-                User u = sessionDAO.getUserConnected(getBaseContext());
-
-                Spinner proteinSpinner = (Spinner) findViewById(R.id.spinner);
-                String protein = proteinSpinner.getSelectedItem().toString();
-                Spinner fatsSpinner = (Spinner) findViewById(R.id.spinner2);
-                String fats = fatsSpinner.getSelectedItem().toString();
-                Spinner fibreSpinner = (Spinner) findViewById(R.id.spinner3);
-                String fibre = fibreSpinner.getSelectedItem().toString();
-                Spinner dairySpinner = (Spinner) findViewById(R.id.spinner1);
-                String dairy = dairySpinner.getSelectedItem().toString();
-                Spinner fruitsSpinner = (Spinner) findViewById(R.id.spinner6);
-                String fruits = fruitsSpinner.getSelectedItem().toString();
-                Spinner vegetablesSpinner = (Spinner) findViewById(R.id.spinner4);
-                String vegetables = vegetablesSpinner.getSelectedItem().toString();
-                Spinner spicesSpinner = (Spinner) findViewById(R.id.spinner5);
-                String spices = spicesSpinner.getSelectedItem().toString();
-                Spinner sugarSpinner = (Spinner) findViewById(R.id.spinner7);
-                String sugar = sugarSpinner.getSelectedItem().toString();
-
-                Ingredient i = ingredientDAO.getIngredient(protein);
-                if (i != null) {
-                    ingredientDAO.addIngredientProhibited(i, u.getId());
+            public void onClick(View v) {
+                long id_cat = ingredientDAO.getIdCategory("Vegetables");
+                if (ingredientDAO.isCategoryProhibited(id_cat, u.getId())) {
+                    Toast.makeText(getBaseContext(), "This category is already excluded",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getBaseContext(), VegetablesProhib.class);
+                    getBaseContext().startActivity(intent);
                 }
-                i = null;
-                i = ingredientDAO.getIngredient(fats);
-                if (i != null) {
-                    ingredientDAO.addIngredientProhibited(i, u.getId());
-                }
-                i = null;
-                i = ingredientDAO.getIngredient(fibre);
-                if (i != null) {
-                    ingredientDAO.addIngredientProhibited(i, u.getId());
-                }
-                i = null;
-                i = ingredientDAO.getIngredient(fruits);
-                if (i != null) {
-                    ingredientDAO.addIngredientProhibited(i, u.getId());
-                }
-                i = null;
-                i = ingredientDAO.getIngredient(vegetables);
-                if (i != null) {
-                    ingredientDAO.addIngredientProhibited(i, u.getId());
-                }
-                i = null;
-                i = ingredientDAO.getIngredient(sugar);
-                if (i != null) {
-                    ingredientDAO.addIngredientProhibited(i, u.getId());
-                }
-                i = null;
-                i = ingredientDAO.getIngredient(spices);
-                if (i != null) {
-                    ingredientDAO.addIngredientProhibited(i, u.getId());
-                }
-                i = null;
-                i = ingredientDAO.getIngredient(dairy);
-                if (i != null) {
-                    ingredientDAO.addIngredientProhibited(i, u.getId());
-                }
-
-                Intent intent = new Intent(getBaseContext(), Preferences.class);
-                startActivity(intent);
             }
         });
-    }
 
-    private void initSpinners() {
-        initSpinnerProteins();
-        initSpinnerSugar();
-        initSpinnerFats();
-        initSpinnerFibre();
-        initSpinnerFruits();
-        initSpinnerVegetables();
-        initSpinnerSpices();
-        initSpinnerDairy();
-    }
+        buttonFats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long id_cat = ingredientDAO.getIdCategory("Fats");
+                if (ingredientDAO.isCategoryProhibited(id_cat, u.getId())) {
+                    Toast.makeText(getBaseContext(), "This category is already excluded",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(getBaseContext(), FatsProhib.class);
+                    getBaseContext().startActivity(intent);
+                }
 
-    private void initSpinnerDairy() {
-        IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
-        SessionDAO sessionDAO = new SessionDAO(getBaseContext());
-        User u = sessionDAO.getUserConnected(getBaseContext());
-        Spinner spinner = (Spinner) findViewById(R.id.spinner1);
-        ArrayList<String> options = ingredientDAO.getIngredientsAvailable(ingredientDAO.getIdCategory("Dairy"), u.getId());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_item, options);
-        spinner.setAdapter(adapter);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
+            }
+        });
 
-    private void initSpinnerSpices() {
-        IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
-        SessionDAO sessionDAO = new SessionDAO(getBaseContext());
-        User u = sessionDAO.getUserConnected(getBaseContext());
-        Spinner spinner = (Spinner) findViewById(R.id.spinner5);
-        ArrayList<String> options = ingredientDAO.getIngredientsAvailable(ingredientDAO.getIdCategory("Spices"), u.getId());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_item, options);
-        spinner.setAdapter(adapter);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
+        buttonFibre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), FibreProhib.class);
+                getBaseContext().startActivity(intent);
+            }
+        });
 
-    private void initSpinnerVegetables() {
-        IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
-        SessionDAO sessionDAO = new SessionDAO(getBaseContext());
-        User u = sessionDAO.getUserConnected(getBaseContext());
-        Spinner spinner = (Spinner) findViewById(R.id.spinner4);
-        ArrayList<String> options = ingredientDAO.getIngredientsAvailable(ingredientDAO.getIdCategory("Vegetables"), u.getId());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_item, options);
-        spinner.setAdapter(adapter);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
+        buttonFruits.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), FruitsProhib.class);
+                getBaseContext().startActivity(intent);
+            }
+        });
 
-    private void initSpinnerFruits() {
-        IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
-        SessionDAO sessionDAO = new SessionDAO(getBaseContext());
-        User u = sessionDAO.getUserConnected(getBaseContext());
-        Spinner spinner = (Spinner) findViewById(R.id.spinner6);
-        ArrayList<String> options = ingredientDAO.getIngredientsAvailable(ingredientDAO.getIdCategory("Fruits"), u.getId());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_item, options);
-        spinner.setAdapter(adapter);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
+        buttonSpices.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), SpicesProhib.class);
+                getBaseContext().startActivity(intent);
+            }
+        });
 
-    private void initSpinnerFibre() {
-        IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
-        SessionDAO sessionDAO = new SessionDAO(getBaseContext());
-        User u = sessionDAO.getUserConnected(getBaseContext());
-        Spinner spinner = (Spinner) findViewById(R.id.spinner3);
-        ArrayList<String> options = ingredientDAO.getIngredientsAvailable(ingredientDAO.getIdCategory("Fibre"), u.getId());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_item, options);
-        spinner.setAdapter(adapter);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
+        buttonSugar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), SugarProhib.class);
+                getBaseContext().startActivity(intent);
+            }
+        });
 
-    private void initSpinnerFats() {
-        IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
-        SessionDAO sessionDAO = new SessionDAO(getBaseContext());
-        User u = sessionDAO.getUserConnected(getBaseContext());
-        Spinner spinner = (Spinner) findViewById(R.id.spinner2);
-        ArrayList<String> options = ingredientDAO.getIngredientsAvailable(ingredientDAO.getIdCategory("Fats"), u.getId());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_item, options);
-        spinner.setAdapter(adapter);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
-
-    private void initSpinnerProteins() {
-        IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
-        SessionDAO sessionDAO = new SessionDAO(getBaseContext());
-        User u = sessionDAO.getUserConnected(getBaseContext());
-        Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        ArrayList<String> options = ingredientDAO.getIngredientsAvailable(ingredientDAO.getIdCategory("Proteins"), u.getId());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_item, options);
-        spinner.setAdapter(adapter);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
-
-    private void initSpinnerSugar() {
-        IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
-        SessionDAO sessionDAO = new SessionDAO(getBaseContext());
-        User u = sessionDAO.getUserConnected(getBaseContext());
-        Spinner spinner = (Spinner) findViewById(R.id.spinner7);
-        ArrayList<String> options = ingredientDAO.getIngredientsAvailable(ingredientDAO.getIdCategory("Sugar"), u.getId());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_item, options);
-        spinner.setAdapter(adapter);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        buttonDairy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseContext(), DairyProhib.class);
+                getBaseContext().startActivity(intent);
+            }
+        });
     }
 }

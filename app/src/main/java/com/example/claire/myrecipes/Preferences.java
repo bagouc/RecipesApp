@@ -87,11 +87,13 @@ public class Preferences extends AppCompatActivity {
                 buttonDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        SessionDAO sessionDAO = new SessionDAO(getApplicationContext());
+                        User u = sessionDAO.getUserConnected(getApplicationContext());
                         IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
                         Ingredient i = (Ingredient)input;
                         if (i.getId() < 0) {
                             // it is a category
-                            ingredientDAO.deleteCategoryProhibited(i.getName());
+                            ingredientDAO .deleteCategoryProhibited(i.getName(), u.getId());
                             Toast.makeText(getBaseContext(), "category deleted with success",
                                     Toast.LENGTH_SHORT).show();
                         } else {

@@ -5,13 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.claire.myrecipes.ExcludeIngredient">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1"
-        tools:layout_editor_absoluteX="129dp"
-        tools:layout_editor_absoluteY="27dp">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -21,8 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="1"
-            >
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/title"
@@ -30,7 +23,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Exclude an ingredient"
+                android:text="Exclude ingredients"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
@@ -50,167 +43,72 @@
 
     </android.support.v7.widget.Toolbar>
 
-
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        android:baselineAligned="false"
         android:orientation="vertical"
-        android:weightSum="1"
-        android:layout_marginTop="30dp">
-
-        <TextView
-            android:id="@+id/textView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:text="Proteins"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="249dp" />
-
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="6dp"
-            android:text="Dairy"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="249dp" />
-        <TextView
-            android:id="@+id/textView12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="6dp"
-            android:text="Fats"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <Spinner
-            android:id="@+id/spinner2"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="249dp" />
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="6dp"
-            android:text="Fibre"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <Spinner
-            android:id="@+id/spinner3"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="249dp" />
-
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="6dp"
-            android:text="Vegetables"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <Spinner
-            android:id="@+id/spinner4"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="249dp" />
-
-
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="6dp"
-            android:text="Fruits"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <Spinner
-            android:id="@+id/spinner6"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="249dp" />
-
-        <TextView
-            android:id="@+id/textView15"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="6dp"
-            android:text="Spices"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <Spinner
-            android:id="@+id/spinner5"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="249dp" />
-
-        <TextView
-            android:id="@+id/textView17"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="6dp"
-            android:text="Sugar"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <Spinner
-            android:id="@+id/spinner7"
-            android:layout_width="170dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_gravity="center"
-            tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="249dp" />
+        >
 
         <Button
-            android:id="@+id/buttonSave"
-            android:layout_width="wrap_content"
+            android:id="@+id/premier"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="100dp"
+            android:layout_width="800px"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:text="SAVE" />
-    </LinearLayout>
+            android:text="Proteins" />
+
+        <Button
+            android:id="@+id/second"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:text="Vegetables" />
+
+        <Button
+            android:id="@+id/trois"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:text="Fibre" />
+
+        <Button
+            android:id="@+id/quatre"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:text="Fats" />
+
+        <Button
+            android:id="@+id/cinq"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:text="Fruits" />
+
+        <Button
+            android:id="@+id/six"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:text="Spices" />
+
+        <Button
+            android:id="@+id/sept"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:text="Sugar" />
+
+        <Button
+            android:id="@+id/huit"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:text="Dairy" />
+
     </LinearLayout>
 
 

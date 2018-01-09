@@ -107,6 +107,23 @@ public class IngredientDAO extends DAOBase {
         }
     }
 
+    public ArrayList<String> getCategories() {
+        ArrayList<String> list = new ArrayList<String>();
+        try {
+            Cursor c = mDb.rawQuery("select *" +
+                    " from " + CATEGORY_TABLE_NAME, new String[]{});
+
+            while (c.moveToNext()) {
+                list.add(c.getString(1));
+            }
+            return list;
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("SelectError0", chaine);
+        }
+        return null;
+    }
+
     public ArrayList<String> getCategoriesAvailable(long id) {
         ArrayList<String> list = new ArrayList<String>();
         try {
@@ -133,7 +150,7 @@ public class IngredientDAO extends DAOBase {
         list.add("");
         try {
             Cursor c = mDb.rawQuery("select *" +
-                    " from " + INGREDIENT_TABLE_NAME + " where " + INGREDIENT_CATEGORY + " = ?", new String[]{id_cat+""});
+                    " from " + INGREDIENT_TABLE_NAME + " where " + INGREDIENT_CATEGORY + " = ?", new String[]{id_cat + ""});
 
             while (c.moveToNext()) {
                 if (c.getLong(1) < 0 || c.getLong(1) == id) {
@@ -160,7 +177,7 @@ public class IngredientDAO extends DAOBase {
         ArrayList<String> ingredients = new ArrayList<>();
         try {
             Cursor c = mDb.rawQuery("select * " + " " +
-                    " from " + INGREDIENT_TABLE_NAME + " where " + INGREDIENT_CATEGORY + " = ?", new String[]{id+""});
+                    " from " + INGREDIENT_TABLE_NAME + " where " + INGREDIENT_CATEGORY + " = ?", new String[]{id + ""});
             while (c.moveToNext()) {
                 Ingredient i = new Ingredient(c.getLong(0), c.getLong(1), c.getString(2), c.getLong(3));
                 ingredients.add(i.getName());
@@ -175,7 +192,41 @@ public class IngredientDAO extends DAOBase {
     public boolean isSelected(long id, long id_user) {
         try {
             Cursor c = mDb.rawQuery("select * " +
-                    " from " + INGREDIENTS_SELECTED_TABLE_NAME + " where " + INGREDIENTS_SELECTED_USER + " = ?", new String[]{id_user+""});
+                    " from " + INGREDIENTS_SELECTED_TABLE_NAME + " where " + INGREDIENTS_SELECTED_USER + " = ?", new String[]{id_user + ""});
+            while (c.moveToNext()) {
+                if (c.getLong(0) == id) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("SelectError", chaine);
+        }
+        return false;
+    }
+
+    public boolean isProhibited(long id, long id_user) {
+        try {
+            Cursor c = mDb.rawQuery("select * " +
+                    " from " + INGREDIENT_PROHIBITED_TABLE_NAME + " where " + INGREDIENT_USER + " = ?", new String[]{id_user + ""});
+            while (c.moveToNext()) {
+                if (c.getLong(0) == id) {
+                    return true;
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("SelectError", chaine);
+        }
+        return false;
+    }
+
+    public boolean isCategoryProhibited(long id, long id_user) {
+        try {
+            Cursor c = mDb.rawQuery("select * " +
+                    " from " + CATEGORY_PROHIBITED_TABLE_NAME + " where " + INGREDIENT_USER + " = ?", new String[]{id_user + ""});
             while (c.moveToNext()) {
                 if (c.getLong(0) == id) {
                     return true;
@@ -203,7 +254,7 @@ public class IngredientDAO extends DAOBase {
 
     public void deleteIngredientSelected(long id_ing, long id_user) {
         try {
-            mDb.delete(INGREDIENTS_SELECTED_TABLE_NAME, INGREDIENTS_SELECTED_KEY + " = ?  and "+INGREDIENTS_SELECTED_USER + " = ?", new String[]{id_ing+"", id_user+""});
+            mDb.delete(INGREDIENTS_SELECTED_TABLE_NAME, INGREDIENTS_SELECTED_KEY + " = ?  and " + INGREDIENTS_SELECTED_USER + " = ?", new String[]{id_ing + "", id_user + ""});
         } catch (Exception e) {
             String chaine = e.getMessage();
             Log.v("InsertError", chaine);
@@ -218,7 +269,7 @@ public class IngredientDAO extends DAOBase {
         mDb.delete(INGREDIENT_PROHIBITED_TABLE_NAME, INGREDIENT_KEY + "= ?", new String[]{String.valueOf(id)});
     }
 
-    public void deleteCategoryProhibited(String name) {
+    public void deleteCategoryProhibited(String name, long id_user) {
         long id = getIdCategory(name);
         mDb.delete(CATEGORY_PROHIBITED_TABLE_NAME, CATEGORY_KEY + "= ?", new String[]{String.valueOf(id)});
     }
