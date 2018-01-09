@@ -70,6 +70,18 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".listRow" />
         <activity android:name=".Preferences2" />
+        <activity android:name=".SugarProhib" />
+        <activity android:name=".DairyProhib" />
+        <activity android:name=".SpicesProhib" />
+        <activity android:name=".FruitsProhib" />
+        <activity android:name=".FibreProhib" />
+        <activity android:name=".FatsProhib" />
+        <activity android:name=".VegetablesProhib" />
+        <activity android:name=".ProteinsProhib" />
+        <activity
+            android:name=".Settings2"
+            android:label="@string/title_activity_settings2"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>
