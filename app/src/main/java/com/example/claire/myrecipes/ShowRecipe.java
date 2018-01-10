@@ -69,7 +69,8 @@ public class ShowRecipe extends AppCompatActivity {
         buttonMod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentLogIn = new Intent(getBaseContext(), AddRecipe.class);
+                Intent intentLogIn = new Intent(getBaseContext(), ModifyRecipe.class);
+                intentLogIn.putExtra("id_recipe", recipeId);
                 getBaseContext().startActivity(intentLogIn);
             }
         });

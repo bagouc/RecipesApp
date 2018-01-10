@@ -78,7 +78,7 @@ public class UserDAO extends DAOBase{
     public void update(String name, String password, long id) {
         ContentValues value = new ContentValues();
         value.put(USER_NAME, name);
-        value.put(USER_PWD, name);
+        value.put(USER_PWD, password);
         mDb.update(USER_TABLE_NAME, value, USER_KEY  + " = ?", new String[] {String.valueOf(id)});
 
     }

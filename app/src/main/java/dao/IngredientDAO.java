@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -114,6 +115,31 @@ public class IngredientDAO extends DAOBase {
             Log.v("SelectError", chaine);
         }
         return ingredients;
+    }
+
+    /*public ArrayList<String> getListIngredientNameForNewRecipe() {
+        ArrayList<String> ingredients = new ArrayList<String>();
+        try {
+            Cursor c = mDb.rawQuery("select * " +
+                    " from " + INGREDIENT_NEW_RECIPE_TABLE_NAME, new String[]{});
+            while (c.moveToNext()) {
+                long id = c.getLong(0);
+                Ingredient i = getIngredient(id);
+                ingredients.add(i.getName());
+            }
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("SelectError", chaine);
+        }
+        return ingredients;
+    } */
+
+    public ArrayList<String> transferToArrayList(Vector<Ingredient> ingredients) {
+        ArrayList<String> list = new ArrayList<>();
+        for (Ingredient i : ingredients) {
+            list.add(i.getName());
+        }
+        return list;
     }
 
     public void addIngredientProhibited(Ingredient i, long id_user) {

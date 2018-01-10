@@ -127,6 +127,14 @@ public class RecipeDAO extends DAOBase {
         }
     }
 
+    public void upDateTitleInstructions(String title, String instructions, long id) {
+        ContentValues value = new ContentValues();
+        value.put(RECIPE_TITLE, title);
+        value.put(RECIPE_INSTRUCTIONS, instructions);
+        mDb.update(RECIPE_TABLE_NAME, value, RECIPE_KEY  + " = ?", new String[] {String.valueOf(id)});
+
+    }
+
     public long addWithoutIng(Recipe r) {
         ContentValues value = new ContentValues();
         value.put(RECIPE_TITLE, r.getTitle());

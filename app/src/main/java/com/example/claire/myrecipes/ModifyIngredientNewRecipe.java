@@ -22,7 +22,7 @@ import model.Ingredient;
 import model.Recipe;
 import model.User;
 
-public class SelectIngredientNewRecipe extends AppCompatActivity {
+public class ModifyIngredientNewRecipe extends AppCompatActivity {
     private ListView listView;
     private long id_user;
     private Vector<Ingredient> ingredients;
@@ -31,7 +31,7 @@ public class SelectIngredientNewRecipe extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_ingredient_new_recipe);
+        setContentView(R.layout.activity_modify_ingredient_new_recipe);
 
         ImageButton button = (ImageButton) findViewById(R.id.homeButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +50,8 @@ public class SelectIngredientNewRecipe extends AppCompatActivity {
 
         Intent intent = getIntent();
         id_recipe = intent.getExtras().getInt("id_recipe");
+        final RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
+        Recipe r = recipeDAO.getRecipeByID(id_recipe);
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -59,17 +61,17 @@ public class SelectIngredientNewRecipe extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, list);
         listView.setAdapter(adapter);
 
-       /* int i = 0;
-        Vector<Ingredient> ingSelectedNewRecipe = ingredientDAO.getListIngredientForNewRecipe();
+        int i = 0;
+        ArrayList<String> ingSelectedNewRecipe = ingredientDAO.transferToArrayList(r.getIngredients());
         while (i < list.size()) {
             Ingredient ingredient = ingredientDAO.getIngredient(list.get(i));
-            if (ingSelectedNewRecipe.contains(ingredient)) {
+            if (ingSelectedNewRecipe.contains(ingredient.getName())) {
                 listView.setItemChecked(i, true);
             }
             i++;
-        }*/
+        }
 
-        final RecipeDAO recipeDAO = new RecipeDAO(getApplicationContext());
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -126,7 +128,8 @@ public class SelectIngredientNewRecipe extends AppCompatActivity {
         buttonDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(), MyRecipes.class);
+                Intent intent = new Intent(getBaseContext(), ShowRecipe.class);
+                intent.putExtra("Recipe", Long.toString(id_recipe));
                 getBaseContext().startActivity(intent);
             }
         });
