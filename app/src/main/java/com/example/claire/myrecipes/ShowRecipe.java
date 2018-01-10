@@ -19,7 +19,7 @@ public class ShowRecipe extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_show_recipe);
+        setContentView(R.layout.activity_show_recipe2);
 
         ImageButton button = (ImageButton) findViewById(R.id.homeButton);
         button.setOnClickListener(new View.OnClickListener() {

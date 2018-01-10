@@ -31,7 +31,7 @@ public class Preferences extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_preferences);
+        setContentView(R.layout.activity_preferences2);
 
         ImageButton button = (ImageButton) findViewById(R.id.homeButton);
         button.setOnClickListener(new View.OnClickListener() {

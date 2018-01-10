@@ -56,6 +56,7 @@
             android:layout_marginTop="20dp"
             android:baselineAligned="false"
             android:orientation="vertical"
+            android:gravity="center_vertical"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp">
 
