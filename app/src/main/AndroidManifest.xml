@@ -86,7 +86,10 @@
         <activity android:name=".webview" />
         <activity android:name=".SelectIngredientNewRecipe" />
         <activity android:name=".ModifyRecipe" />
-        <activity android:name=".ModifyIngredientNewRecipe"></activity>
+        <activity android:name=".ModifyIngredientNewRecipe" />
+        <activity android:name=".Welcome2" />
+        <activity android:name=".LogIn2" />
+        <activity android:name=".SignIn2"></activity>
     </application>
 
 </manifest>
