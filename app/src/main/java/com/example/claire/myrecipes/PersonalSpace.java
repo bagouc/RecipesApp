@@ -42,11 +42,20 @@ public class PersonalSpace extends AppCompatActivity {
             Button buttonSharedSpace = (Button)findViewById(R.id.sept);
             Button buttonSettings = (Button)findViewById(R.id.huit);
             Button buttonShops = (Button)findViewById(R.id.neuf);
+            Button buttonFav = (Button)findViewById(R.id.dix);
 
             buttonSettings.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getBaseContext(), Settings.class);
+                    getBaseContext().startActivity(intent);
+                }
+            });
+
+            buttonFav.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getBaseContext(), FavoriteRecipes.class);
                     getBaseContext().startActivity(intent);
                 }
             });

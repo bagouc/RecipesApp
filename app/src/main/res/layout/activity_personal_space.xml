@@ -64,6 +64,13 @@
             android:text="My Recipes" />
 
         <Button
+            android:id="@+id/dix"
+            android:layout_width="800px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="My favorites" />
+
+        <Button
             android:id="@+id/trois"
             android:layout_width="800px"
             android:layout_height="wrap_content"

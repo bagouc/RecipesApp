@@ -83,10 +83,8 @@
             android:name=".Settings2"
             android:label="@string/title_activity_settings2"
             android:theme="@style/AppTheme" />
-
-        <activity android:name=".webview">
-        </activity>
-
+        <activity android:name=".webview"></activity>
+        <activity android:name=".SelectIngredientNewRecipe"></activity>
     </application>
 
 </manifest>

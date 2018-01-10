@@ -34,8 +34,8 @@ public class Welcome extends AppCompatActivity {
         Button buttonLogIn = (Button)findViewById(R.id.logIn);
 
         RecipeDAO recipeDAO = new RecipeDAO(getBaseContext());
-        recipeDAO.dropTable();
-        recipeDAO = new RecipeDAO(getBaseContext());
+       // recipeDAO.dropTable();
+        //recipeDAO = new RecipeDAO(getBaseContext());
         IngredientDAO ingredientDAO = new IngredientDAO(getBaseContext());
         ingredientDAO.dropTableIngredientSelected();
         ingredientDAO.dropTableIngredients();
@@ -45,6 +45,7 @@ public class Welcome extends AppCompatActivity {
         ingredientDAO = new IngredientDAO(getBaseContext());
         SessionDAO sessionDAO = new SessionDAO(getBaseContext());
         sessionDAO.dropTable();
+        sessionDAO = new SessionDAO(getBaseContext());
 
         ingredientDAO.addCategory("Proteins"); //1
         ingredientDAO.addCategory("Vegetables"); //2
@@ -90,7 +91,7 @@ public class Welcome extends AppCompatActivity {
         forbidden.add(new Ingredient("eggs", 0));
 
         String s = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.";
-        recipeDAO.add(new Recipe(0,0,"Recipe1", ingList, s));
+       /* recipeDAO.add(new Recipe(0,0,"Recipe1", ingList, s));
         ingList.remove(0);
         recipeDAO.add(new Recipe(0,0,"Recipe2", ingList, s));
         ingList.remove(0);
@@ -106,7 +107,7 @@ public class Welcome extends AppCompatActivity {
         recipeDAO.add(new Recipe(0,0,"Recipe11", ingList, s));
         recipeDAO.add(new Recipe(0,0,"Recipe12", ingList, s));
         recipeDAO.add(new Recipe(0,0,"Recipe13", ingList, s));
-        recipeDAO.add(new Recipe(0,0,"Recipe14", ingList, s));
+        recipeDAO.add(new Recipe(0,0,"Recipe14", ingList, s)); */
 
 
         buttonLogIn.setOnClickListener(new View.OnClickListener() {

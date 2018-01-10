@@ -92,7 +92,7 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
 
         //Display search criteria
         String s = "";
-        s += "Ingredients: ";
+        s += "Result(s) for : ";
         for (int i = 0; i < ing_list_wanted.size() - 1; i++) {
             s += ing_list_wanted.get(i).getName() + ", ";
         }

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,16 @@ public class ShowRecipe extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_recipe);
+
+        ImageButton button = (ImageButton) findViewById(R.id.homeButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), PersonalSpace.class);
+                startActivity(intent);
+            }
+        });
+
         Intent intent = getIntent();
         TextView recipeTitle = (TextView) findViewById(R.id.recipeTitle);
         TextView instructions = (TextView) findViewById(R.id.instructionsTextView);

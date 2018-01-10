@@ -63,12 +63,12 @@ public class MyRecipes extends AppCompatActivity {
             imgsrc.add("");
         }
 
-        final Vector<OnlineRecipe> onlineResults = recipeDAO.getOnlineFavorites(user.getId());
+        /*final Vector<OnlineRecipe> onlineResults = recipeDAO.getOnlineFavorites(user.getId());
 
         for (int i = 0; i < onlineResults.size(); i++) {
             resultList.add(onlineResults.get(i).getTitle());
             imgsrc.add(onlineResults.get(i).getImgUrl());
-        }
+        } */
 
         adapter = new CustomListAdapter(this, (String[]) resultList.toArray(new String[0]), (String[]) imgsrc.toArray(new String[0]));
         listView.setAdapter(adapter);
@@ -97,7 +97,7 @@ public class MyRecipes extends AppCompatActivity {
                         startActivity(intent);
                     }
                     else {
-                        OnlineRecipe or = onlineResults.get(position-results.size());
+                        /*OnlineRecipe or = onlineResults.get(position-results.size());
                         Intent intent = new Intent(getBaseContext(), webview.class);
                         intent.putExtra("source", or.getUrl());
                         //mark as viewed
@@ -105,7 +105,7 @@ public class MyRecipes extends AppCompatActivity {
                         SessionDAO sessionDAO = new SessionDAO(getBaseContext());
                         final User user = sessionDAO.getUserConnected(getBaseContext());
                         recipeDAO.setOnlineViewed(or, user.getId());
-                        startActivity(intent);
+                        startActivity(intent); */
                     }
                 } catch (Exception e) {
                     Log.v("Error1: ", e.getMessage());

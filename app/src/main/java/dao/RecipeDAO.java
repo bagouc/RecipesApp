@@ -112,14 +112,40 @@ public class RecipeDAO extends DAOBase {
         mDb.execSQL(command);
     }
 
-    public void add(Recipe r) {
+    public long add(Recipe r) {
         ContentValues value = new ContentValues();
         value.put(RECIPE_TITLE, r.getTitle());
         value.put(RECIPE_USER, r.getIdUser());
         value.put(RECIPE_INGREDIENTS, ingredientListToJSON(r.getIngredients()).toString());
         value.put(RECIPE_INSTRUCTIONS, r.getInstructions());
         try {
-            mDb.insert(RECIPE_TABLE_NAME, null, value);
+            return mDb.insert(RECIPE_TABLE_NAME, null, value);
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("InsertError",chaine);
+            return -1;
+        }
+    }
+
+    public long addWithoutIng(Recipe r) {
+        ContentValues value = new ContentValues();
+        value.put(RECIPE_TITLE, r.getTitle());
+        value.put(RECIPE_USER, r.getIdUser());
+        value.put(RECIPE_INSTRUCTIONS, r.getInstructions());
+        try {
+            return mDb.insert(RECIPE_TABLE_NAME, null, value);
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("InsertError",chaine);
+            return -1;
+        }
+    }
+
+    public void upDateIngredientsRecipe(long id_recipe, Vector<Ingredient> ingred) {
+        ContentValues value = new ContentValues();
+        value.put(RECIPE_INGREDIENTS, ingredientListToJSON(ingred).toString());
+        try {
+            mDb.update(RECIPE_TABLE_NAME, value, RECIPE_KEY + " = ?", new String[]{String.valueOf(id_recipe)});
         } catch (Exception e) {
             String chaine = e.getMessage();
             Log.v("InsertError",chaine);
@@ -168,16 +194,38 @@ public class RecipeDAO extends DAOBase {
 
     public Recipe getRecipeByID(long id) {
         try {
+            //Cursor c = mDb.rawQuery("select " + RECIPE_KEY +
+            //        " from " + RECIPE_TABLE_NAME + " where " + RECIPE_KEY + " = ?", new String[]{id+""});
             Cursor c = mDb.rawQuery("select " + RECIPE_KEY + ", " + RECIPE_USER + ", " + RECIPE_TITLE + ", " + RECIPE_INGREDIENTS + ", " + RECIPE_INSTRUCTIONS + " " +
-                    " from " + RECIPE_TABLE_NAME + " where " + RECIPE_KEY + " = ?", new String[]{String.valueOf(id)});
+                   " from " + RECIPE_TABLE_NAME + " where " + RECIPE_KEY + " = ?", new String[]{id+""});
+            if (c == null) {
+                Log.d("+++++c", "curseur reponse de recette est nul");
+            }
             c.moveToFirst();
             JSONArray jarr = new JSONArray(c.getString(3));
             Vector<String> ingredients = new Vector<String>();
             Vector<Ingredient> ingredientList = new Vector<Ingredient>();
-            for (int i = 0; i < jarr.length(); i++) {
-                ingredientList.add(new Ingredient(jarr.getJSONObject(i)));
+            if (jarr != null) {
+                for (int i = 0; i < jarr.length(); i++) {
+                    ingredientList.add(new Ingredient(jarr.getJSONObject(i)));
+                }
             }
             Recipe r = new Recipe(c.getLong(0), c.getLong(1), c.getString(2),ingredientList, c.getString(4));
+            return r;
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("getRecipe Error",chaine);
+        }
+        return null;
+    }
+
+    public Recipe getRecipeSimplifyFromId(long id) {
+        try {
+            Cursor c = mDb.rawQuery("select " + RECIPE_KEY + ", " + RECIPE_USER + ", " + RECIPE_TITLE  + ", " + RECIPE_INSTRUCTIONS + " " +
+                    " from " + RECIPE_TABLE_NAME + " where " + RECIPE_KEY + " = ?", new String[]{id+""});
+
+            c.moveToFirst();
+            Recipe r = new Recipe(c.getLong(0), c.getLong(1), c.getString(2), c.getString(3));
             return r;
         } catch (Exception e) {
             String chaine = e.getMessage();

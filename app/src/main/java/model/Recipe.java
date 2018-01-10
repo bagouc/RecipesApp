@@ -37,6 +37,26 @@ public class Recipe {
         lastCooked = 0;
     }
 
+    public Recipe(long id, long idUser, String title, String instructions) {
+        this.id = id;
+        this.idUser = idUser;
+        this.ingredients = null;
+        this.instructions = instructions;
+        this.title = title;
+        lastViewed = 0;
+        lastCooked = 0;
+    }
+
+    public Recipe(long idUser, String title, Vector<Ingredient> ingredients, String instructions) {
+        this.id = -1; 
+        this.idUser = idUser;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+        this.title = title;
+        lastViewed = 0;
+        lastCooked = 0;
+    }
+
     public Recipe(String msg) {
         id = 0;
         idUser = 0;

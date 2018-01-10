@@ -36,6 +36,10 @@ public class IngredientDAO extends DAOBase {
             INGREDIENT_NAME + " TEXT, " +
             INGREDIENT_CATEGORY + " INTEGER)";
 
+    public static final String INGREDIENT_NEW_RECIPE_TABLE_NAME = "Ingredients_new_recipe";
+    public static final String INGREDIENT_NEW_RECIPE_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + INGREDIENT_NEW_RECIPE_TABLE_NAME + " (" +
+            INGREDIENT_KEY + " INTEGER PRIMARY KEY )";
+
     public static final String INGREDIENT_PROHIBITED_TABLE_NAME = "Ingredients_Prohibited";
     public static final String INGREDIENT_PROHIBITED_TABLE_CREATE = "CREATE TABLE IF NOT EXISTS " + INGREDIENT_PROHIBITED_TABLE_NAME + " (" +
             INGREDIENT_KEY + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -65,6 +69,7 @@ public class IngredientDAO extends DAOBase {
             this.mDb.execSQL(INGREDIENTS_SELECTED_TABLE_CREATE);
             this.mDb.execSQL(INGREDIENT_PROHIBITED_TABLE_CREATE);
             this.mDb.execSQL(CATEGORY_PROHIBITED_TABLE_CREATE);
+            this.mDb.execSQL(INGREDIENT_NEW_RECIPE_TABLE_CREATE);
         } catch (Exception e) {
             Log.v("init(): ", e.getMessage());
         }
@@ -81,6 +86,34 @@ public class IngredientDAO extends DAOBase {
             String chaine = e.getMessage();
             Log.v("InsertError", chaine);
         }
+    }
+
+    public void addIngredientNewRecipe(long id) {
+        ContentValues value = new ContentValues();
+        value.put(INGREDIENT_KEY, id);
+        try {
+            mDb.insert(INGREDIENT_NEW_RECIPE_TABLE_NAME, null, value);
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("InsertError", chaine);
+        }
+    }
+
+    public Vector<Ingredient> getListIngredientForNewRecipe() {
+        Vector<Ingredient> ingredients = new Vector<Ingredient>();
+        try {
+            Cursor c = mDb.rawQuery("select * " +
+                    " from " + INGREDIENT_NEW_RECIPE_TABLE_NAME, new String[]{});
+            while (c.moveToNext()) {
+                long id = c.getLong(0);
+                Ingredient i = getIngredient(id);
+                ingredients.add(i);
+            }
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("SelectError", chaine);
+        }
+        return ingredients;
     }
 
     public void addIngredientProhibited(Ingredient i, long id_user) {
@@ -164,6 +197,23 @@ public class IngredientDAO extends DAOBase {
                         }
                     }
                 }
+            }
+            return list;
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("SelectError0", chaine);
+        }
+        return null;
+    }
+
+    public ArrayList<String> getListIngredients() {
+        ArrayList<String> list = new ArrayList<String>();
+        try {
+            Cursor c = mDb.rawQuery("select *" +
+                    " from " + INGREDIENT_TABLE_NAME, new String[]{});
+
+            while (c.moveToNext()) {
+                list.add(c.getString(2));
             }
             return list;
         } catch (Exception e) {
@@ -364,6 +414,15 @@ public class IngredientDAO extends DAOBase {
     public void deleteCategory(long id) {
         mDb.delete(CATEGORY_TABLE_NAME, CATEGORY_KEY + " = ?", new String[]{String.valueOf(id)});
     }
+
+    public void deleteIngregientNewRecipe() {
+        mDb.delete(INGREDIENT_NEW_RECIPE_TABLE_NAME, "", new String[]{});
+    }
+
+    public void deleteIngregientNewRecipe(long id) {
+        mDb.delete(INGREDIENT_NEW_RECIPE_TABLE_NAME, ""+INGREDIENT_KEY + " = ? ", new String[]{String.valueOf(id)});
+    }
+
 
     public Vector<Ingredient> getListIngredientsSelected(long id) {
         try {
