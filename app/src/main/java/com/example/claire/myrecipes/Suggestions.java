@@ -37,7 +37,8 @@ public class Suggestions extends AppCompatActivity {
 
         ListView listView;
         final List<String> resultList = new ArrayList();
-        ArrayAdapter adapter;
+        final List<String> imgsrc = new ArrayList();
+        CustomListAdapter adapter;
 
         listView  = (ListView) findViewById(R.id.suggestionsListView);
 
@@ -48,10 +49,11 @@ public class Suggestions extends AppCompatActivity {
         final Vector<Recipe> results = recipeDAO.getSuggestions(user.getId());
 
         for (int i = 0; i < results.size(); i++) {
-           resultList.add(results.get(i).toString());
+           resultList.add(results.get(i).getTitle());
+           imgsrc.add("");
         }
 
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, resultList);
+        adapter = new CustomListAdapter(this, (String[]) resultList.toArray(new String[0]), (String[]) imgsrc.toArray(new String[0]));
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

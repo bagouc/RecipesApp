@@ -37,8 +37,10 @@ import model.UserSearch;
 public class ResultsRecipesIngredients extends AppCompatActivity {
 
     ListView listView;
-    List<String> resultList;
-    ArrayAdapter adapter;
+    ArrayList<String> resultList;
+    ArrayList<String> imgurl;
+
+    CustomListAdapter adapter;
     Vector<OnlineRecipe> resultsAPI;
     Vector<Ingredient> ing_list_wanted;
     Vector<Ingredient> forbidden;
@@ -65,7 +67,8 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(this);
         String searchTerm = "";
 
-        resultList = new ArrayList();
+        resultList = new ArrayList<String>();
+        imgurl = new ArrayList<String>();
 
         listView  = (ListView) findViewById(R.id.resultList);
         searchView = (TextView) findViewById(R.id.searchView);
@@ -103,11 +106,17 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
         recipeDAO.addSearch(new UserSearch(user.getId(), "", ing_list_wanted));
 
         for (int i = 0; i < results.size(); i++) {
-            resultList.add(results.get(i).toString());
+            resultList.add(results.get(i).getTitle());
+            imgurl.add("");
         }
 
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, resultList);
-        listView.setAdapter(adapter);
+        try {
+
+            String[] resultListArray = (String[]) resultList.toArray(new String[0]);
+            String[] imgurlArray = (String[]) imgurl.toArray(new String[0]);
+
+            adapter = new CustomListAdapter(this, resultListArray, imgurlArray);
+            listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -121,7 +130,9 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
                 }
             }
         });
-
+    } catch (Exception e) {
+        searchView.setText("Err0: " + e.getMessage());
+    }
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
 
@@ -139,6 +150,7 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
                                 }
                                 if (checkConditions(ing, ing_list_wanted, forbidden)) {
                                     resultsAPI.add(new OnlineRecipe(recipeJSON.getString("url"), recipeJSON.getString("label"), ing, recipeJSON.getString("image")));
+                                    imgurl.add(recipeJSON.getString("image"));
                                 }
                             }
                             fillList();
@@ -176,35 +188,41 @@ public class ResultsRecipesIngredients extends AppCompatActivity {
 
     public void fillList() {
         for (int i = 0; i < resultsAPI.size(); i++) {
-            resultList.add(resultsAPI.get(i).toString());
+            resultList.add(resultsAPI.get(i).getTitle());
         }
-        adapter = new ArrayAdapter(getBaseContext(), android.R.layout.simple_list_item_1, resultList);
-        listView.setAdapter(adapter);
+        //imgurl.addAll(imgurl2);
+        String[] resultListArray = (String[]) resultList.toArray(new String[0]);
+        String[] imgurlArray = (String[]) imgurl.toArray(new String[0]);
+        try {
+            adapter = new CustomListAdapter(this, resultListArray, imgurlArray);
+            listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    if (position < results.size()) {
-                        Intent intent = new Intent(getBaseContext(), ShowRecipe.class);
-                        intent.putExtra("Recipe", Long.toString( results.get(position).getId()));
-                        startActivity(intent);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    try {
+                        if (position < results.size()) {
+                            Intent intent = new Intent(getBaseContext(), ShowRecipe.class);
+                            intent.putExtra("Recipe", Long.toString( results.get(position).getId()));
+                            startActivity(intent);
+                        }
+                        else {
+                            OnlineRecipe or = resultsAPI.get(position-results.size());
+                            Intent intent = new Intent(getBaseContext(), webview.class);
+                            intent.putExtra("source", or.getUrl());
+                            //mark as viewed
+                            final RecipeDAO recipeDAO = new RecipeDAO(getBaseContext());
+                            SessionDAO sessionDAO = new SessionDAO(getBaseContext());
+                            final User user = sessionDAO.getUserConnected(getBaseContext());
+                            recipeDAO.setOnlineViewed(or, user.getId());
+                            startActivity(intent);
+                        }
+                    } catch (Exception e) {
+                        Log.v("Error1: ", e.getMessage());
                     }
-                    else {
-                        OnlineRecipe or = resultsAPI.get(position-results.size());
-                        Intent intent = new Intent(getBaseContext(), webview.class);
-                        intent.putExtra("source", or.getUrl());
-                        //mark as viewed
-                        final RecipeDAO recipeDAO = new RecipeDAO(getBaseContext());
-                        SessionDAO sessionDAO = new SessionDAO(getBaseContext());
-                        final User user = sessionDAO.getUserConnected(getBaseContext());
-                        recipeDAO.setOnlineViewed(or, user.getId());
-                        startActivity(intent);
-                    }
-                } catch (Exception e) {
-                    Log.v("Error1: ", e.getMessage());
                 }
-            }
-        });
+            });
+
+        } catch (Exception e){ searchView.setText("Err: " + e.getMessage());}
     }
 }
