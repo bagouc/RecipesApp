@@ -50,6 +50,9 @@ public class UserHistory extends AppCompatActivity {
         final List<String> resultList2 = new ArrayList();
         ArrayAdapter adapter2;
 
+        final List<String> imgsrc = new ArrayList();
+        final List<String> imgsrc2 = new ArrayList();
+
         listView2  = (ListView) findViewById(R.id.listView3);
 
         SessionDAO sessionDAO = new SessionDAO(getBaseContext());
@@ -60,59 +63,34 @@ public class UserHistory extends AppCompatActivity {
         final Vector<Recipe> results2 = recipeDAO.getRecipesLastCooked(user.getId());
 
         for (int i = 0; i < results.size(); i++) {
-            resultList.add(results.get(i).toString());
+            resultList.add(results.get(i).getTitle());
+            imgsrc.add("");
         }
 
         for (int i = 0; i < results2.size(); i++) {
-
-            resultList2.add(results2.get(i).toString());
+            resultList2.add(results2.get(i).getTitle());
+            imgsrc2.add("");
         }
 
         final Vector<OnlineRecipe> onlineResults = recipeDAO.getOnlineRecipesLastViewed(user.getId());
         final Vector<OnlineRecipe> onlineResults2 = recipeDAO.getOnlineRecipesLastCooked(user.getId());
 
         for (int i = 0; i < onlineResults.size(); i++) {
-            resultList.add(onlineResults.get(i).toString());
+            resultList.add(onlineResults.get(i).getTitle());
+            imgsrc.add(onlineResults.get(i).getImgUrl());
         }
 
         for (int i = 0; i < onlineResults2.size(); i++) {
-
-            resultList2.add(onlineResults2.get(i).toString());
+            resultList2.add(onlineResults2.get(i).getTitle());
+            imgsrc2.add(onlineResults2.get(i).getImgUrl());
         }
 
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, resultList);
+        adapter = new CustomListAdapter(this, (String[]) resultList.toArray(new String[0]), (String[]) imgsrc.toArray(new String[0]));
         listView.setAdapter(adapter);
 
-        adapter2 = new ArrayAdapter(this, android.R.layout.simple_list_item_1, resultList2);
+        adapter2 = new CustomListAdapter(this, (String[]) resultList2.toArray(new String[0]), (String[]) imgsrc2.toArray(new String[0]));
         listView2.setAdapter(adapter2);
 
-        /*
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    Intent intent = new Intent(getBaseContext(), ShowRecipe.class);
-                    intent.putExtra("Recipe", Long.toString( results.get(position).getId()));
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Log.v("Error1: ", e.getMessage());
-                }
-            }
-        });
-
-        listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                try {
-                    Intent intent = new Intent(getBaseContext(), ShowRecipe.class);
-                    intent.putExtra("Recipe", Long.toString( results.get(position).getId()));
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Log.v("Error1: ", e.getMessage());
-                }
-            }
-        });
-        */
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -164,6 +142,5 @@ public class UserHistory extends AppCompatActivity {
                 }
             }
         });
-
     }
 }
