@@ -59,6 +59,14 @@
             android:layout_marginRight="40dp"
             >
 
+            <Button
+                android:id="@+id/second"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:layout_width="200px"
+                android:layout_height="wrap_content"
+                android:text="Done" />
+
             <ListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -68,13 +76,7 @@
 
             </ListView>
 
-            <Button
-                android:id="@+id/second"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="300dp"
-                android:layout_width="400px"
-                android:layout_height="wrap_content"
-                android:text="Done" />
+
 
 
 
