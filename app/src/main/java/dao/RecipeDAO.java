@@ -186,6 +186,29 @@ public class RecipeDAO extends DAOBase {
         return null;
     }
 
+    public Vector<Recipe> getRecipeByUser(long id) {
+        Vector<Recipe> r = new Vector<>();
+        try {
+            Cursor c = mDb.rawQuery("select " + RECIPE_KEY + ", " + RECIPE_USER + ", " + RECIPE_TITLE + ", " + RECIPE_INGREDIENTS + ", " + RECIPE_INSTRUCTIONS + " " +
+                    " from " + RECIPE_TABLE_NAME + " where " + RECIPE_USER + " = ?", new String[]{String.valueOf(id)});
+            while (c.moveToNext()) {
+                JSONArray jarr = new JSONArray(c.getString(3));
+                Vector<String> ingredients = new Vector<String>();
+                Vector<Ingredient> ingredientList = new Vector<Ingredient>();
+                for (int i = 0; i < jarr.length(); i++) {
+                    ingredientList.add(new Ingredient(jarr.getJSONObject(i)));
+                }
+                r.add(new Recipe(c.getLong(0), c.getLong(1), c.getString(2), ingredientList, c.getString(4)));
+            }
+        } catch (Exception e) {
+            String chaine = e.getMessage();
+            Log.v("getRecipe Error",chaine);
+        }
+        return r;
+    }
+
+
+
     public Vector<Recipe> searchRecipes(Vector<Ingredient> wanted, Vector<Ingredient> forbidden) {
 
         Vector<Recipe> results = new Vector<Recipe>();
