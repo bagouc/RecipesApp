@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,6 +67,13 @@ public class Proteins extends AppCompatActivity {
                      // on enregistre dans les ingredients selected
                      Ingredient ingredient = ingredientDAO.getIngredient(ing);
                      ingredientDAO.addIngredientSelected(ingredient.getId(), id_user);
+
+                     // verication this is not a forbiden ingredient
+                     ArrayList<String> nameIng = ingredientDAO.transferToArrayList(ingredientDAO.getListIngredientsProhibited(id_user));
+                     if (nameIng.contains(ingredient.getName())) {
+                         Toast.makeText(getBaseContext(), "Be careful! You have selected an ingredient you had previously excluded in the Settings. The ingredient is kept for this research",
+                                 Toast.LENGTH_LONG).show();
+                     }
                  } else {
                      Ingredient ingredient = ingredientDAO.getIngredient(ing);
                      ingredientDAO.deleteIngredientSelected(ingredient.getId(), id_user);

@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,7 @@ public class Settings extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_settings2);
         //setContentView(R.layout.tag_tabs);
         SessionDAO sessionDAO = new SessionDAO(getApplicationContext());
         user  = sessionDAO.getUserConnected(getBaseContext());
@@ -57,12 +58,24 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 UserDAO userDAO = new UserDAO(getBaseContext());
-                if (new_password.getText().toString() == null) {
+                if (new_password.getText().toString().equals("")) {
+                    User u = userDAO.select(user.getId());
                     userDAO.update(username.getText().toString(), user.getId());
                 } else {
                     userDAO.update(username.getText().toString(), new_password.getText().toString(), user.getId());
                 }
+                Toast.makeText(getBaseContext(), "Modifications saved",
+                        Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getBaseContext(), Settings.class);
+                startActivity(intent);
+            }
+        });
+
+        Button buttonLogOut = (Button) findViewById(R.id.buttonSave);
+        buttonLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getBaseContext(), Welcome.class);
                 startActivity(intent);
             }
         });

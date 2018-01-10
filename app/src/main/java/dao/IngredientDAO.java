@@ -142,6 +142,14 @@ public class IngredientDAO extends DAOBase {
         return list;
     }
 
+    public ArrayList<String> transferToArrayList(ArrayList<Ingredient> ingredients) {
+        ArrayList<String> list = new ArrayList<>();
+        for (Ingredient i : ingredients) {
+            list.add(i.getName());
+        }
+        return list;
+    }
+
     public void addIngredientProhibited(Ingredient i, long id_user) {
         ContentValues value = new ContentValues();
         value.put(INGREDIENT_KEY, i.getId());
@@ -504,6 +512,9 @@ public class IngredientDAO extends DAOBase {
 
     public Vector<Ingredient> getVectorListIngredientProhibited(long id) {
         Vector<Ingredient> ing = new Vector<>();
+        Vector<Ingredient> ingredientsSelected = getListIngredientsSelected(id);
+        ArrayList<String> nameIngredientSelected = transferToArrayList(ingredientsSelected);
+
 
         // first: category
         Cursor c = mDb.rawQuery("select " + CATEGORY_KEY + ", " + INGREDIENT_USER +
@@ -516,7 +527,9 @@ public class IngredientDAO extends DAOBase {
                     " where " + INGREDIENT_CATEGORY + " = ?", new String[]{String.valueOf(id_cat)});
             while (d.moveToNext()) {
                 Ingredient ingredient = getIngredient(d.getLong(0));
-                ing.add(ingredient);
+                if (!nameIngredientSelected.contains(ingredient.getName())) {
+                    ing.add(ingredient);
+                }
             }
         }
 
@@ -526,7 +539,7 @@ public class IngredientDAO extends DAOBase {
                 " where " + INGREDIENT_USER + " = ?", new String[]{String.valueOf(id)});
         while (e.moveToNext()) {
             Ingredient i = getIngredient(e.getLong(0));
-            if (!ing.contains(i)) {
+            if (!ing.contains(i) && !nameIngredientSelected.contains(i.getName())) {
                 ing.add(i);
             }
         }
