@@ -44,11 +44,12 @@ public class FavoriteRecipes extends AppCompatActivity {
             }
         });
 
-        TextView log = (TextView) findViewById(R.id.title);
         ListView listView;
         final List<String> resultList = new ArrayList();
-        ArrayAdapter adapter;
+        final List<String> imgsrc = new ArrayList();
 
+        //ArrayAdapter adapter;
+        CustomListAdapter adapter;
         listView  = (ListView) findViewById(R.id.favoriteListView);
 
         SessionDAO sessionDAO = new SessionDAO(getBaseContext());
@@ -58,16 +59,18 @@ public class FavoriteRecipes extends AppCompatActivity {
         final Vector<Recipe> results = recipeDAO.getFavorites(user.getId());
 
         for (int i = 0; i < results.size(); i++) {
-            resultList.add(results.get(i).toString());
+            resultList.add(results.get(i).getTitle());
+            imgsrc.add("");
         }
 
         final Vector<OnlineRecipe> onlineResults = recipeDAO.getOnlineFavorites(user.getId());
 
         for (int i = 0; i < onlineResults.size(); i++) {
-            resultList.add(onlineResults.get(i).toString());
+            resultList.add(onlineResults.get(i).getTitle());
+            imgsrc.add(onlineResults.get(i).getImgUrl());
         }
 
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, resultList);
+        adapter = new CustomListAdapter(this, (String[]) resultList.toArray(new String[0]), (String[]) imgsrc.toArray(new String[0]));
         listView.setAdapter(adapter);
         /*
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
