@@ -33,7 +33,7 @@ public class MyRecipes extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite_recipes);
+        setContentView(R.layout.activity_my_recipes);
 
         ImageButton button = (ImageButton) findViewById(R.id.homeButton);
         button.setOnClickListener(new View.OnClickListener() {
